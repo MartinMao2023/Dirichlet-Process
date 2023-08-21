@@ -1,0 +1,192 @@
+\begin{thebibliography}{10}
+
+\bibitem{alphaGo}
+David Silver, Aja Huang, Chris~J Maddison, Arthur Guez, Laurent Sifre, George
+  Van Den~Driessche, Julian Schrittwieser, Ioannis Antonoglou, Veda
+  Panneershelvam, Marc Lanctot, et~al.
+\newblock Mastering the game of go with deep neural networks and tree search.
+\newblock {\em nature}, 529(7587):484--489, 2016.
+
+\bibitem{alphaStar}
+Oriol Vinyals, Igor Babuschkin, Wojciech~M Czarnecki, Micha{\"e}l Mathieu,
+  Andrew Dudzik, Junyoung Chung, David~H Choi, Richard Powell, Timo Ewalds,
+  Petko Georgiev, et~al.
+\newblock Grandmaster level in starcraft ii using multi-agent reinforcement
+  learning.
+\newblock {\em Nature}, 575(7782):350--354, 2019.
+
+\bibitem{openAI5}
+Christopher Berner, Greg Brockman, Brooke Chan, Vicki Cheung, Przemys{\l}aw
+  D{\k{e}}biak, Christy Dennison, David Farhi, Quirin Fischer, Shariq Hashme,
+  Chris Hesse, et~al.
+\newblock Dota 2 with large scale deep reinforcement learning.
+\newblock {\em arXiv preprint arXiv:1912.06680}, 2019.
+
+\bibitem{MBRL}
+Marc Deisenroth and Carl~E Rasmussen.
+\newblock Pilco: A model-based and data-efficient approach to policy search.
+\newblock In {\em Proceedings of the 28th International Conference on machine
+  learning (ICML-11)}, pages 465--472, 2011.
+
+\bibitem{black_box_search}
+Konstantinos Chatzilygeroudis, Roberto Rama, Rituraj Kaushik, Dorian Goepp,
+  Vassilis Vassiliades, and Jean-Baptiste Mouret.
+\newblock Black-box data-efficient policy search for robotics.
+\newblock In {\em 2017 IEEE/RSJ International Conference on Intelligent Robots
+  and Systems (IROS)}, pages 51--58. IEEE, 2017.
+
+\bibitem{policy_search}
+Rituraj Kaushik, Konstantinos Chatzilygeroudis, and Jean-Baptiste Mouret.
+\newblock Multi-objective model-based policy search for data-efficient learning
+  with sparse rewards.
+\newblock In {\em Conference on Robot Learning}, pages 839--855. PMLR, 2018.
+
+\bibitem{curse_of_dim}
+E~Keogh and A~Mueen.
+\newblock Curse of dimensionality. encyclopedia of machine learning. c. sammut
+  and gi webb, eds, 2010.
+
+\bibitem{QD}
+Antoine Cully and Yiannis Demiris.
+\newblock Quality and diversity optimization: A unifying modular framework.
+\newblock {\em IEEE Transactions on Evolutionary Computation}, 22(2):245--259,
+  2017.
+
+\bibitem{EvoRBC}
+Miguel Duarte, Jorge Gomes, Sancho~Moura Oliveira, and Anders~Lyhne
+  Christensen.
+\newblock Evolution of repertoire-based control for robots with complex
+  locomotor systems.
+\newblock {\em IEEE Transactions on Evolutionary Computation}, 22(2):314--328,
+  2017.
+
+\bibitem{RTE}
+Konstantinos Chatzilygeroudis, Vassilis Vassiliades, and Jean-Baptiste Mouret.
+\newblock Reset-free trial-and-error learning for robot damage recovery.
+\newblock {\em Robotics and Autonomous Systems}, 100:236--250, 2018.
+
+\bibitem{GP}
+Christopher~KI Williams and Carl~Edward Rasmussen.
+\newblock {\em Gaussian processes for machine learning}, volume~2.
+\newblock MIT press Cambridge, MA, 2006.
+
+\bibitem{knn}
+Thomas Cover and Peter Hart.
+\newblock Nearest neighbor pattern classification.
+\newblock {\em IEEE transactions on information theory}, 13(1):21--27, 1967.
+
+\bibitem{k-means}
+James MacQueen et~al.
+\newblock Some methods for classification and analysis of multivariate
+  observations.
+\newblock In {\em Proceedings of the fifth Berkeley symposium on mathematical
+  statistics and probability}, volume~1, pages 281--297. Oakland, CA, USA,
+  1967.
+
+\bibitem{Map-Elites}
+Jean-Baptiste Mouret and Jeff Clune.
+\newblock Illuminating search spaces by mapping elites.
+\newblock {\em arXiv preprint arXiv:1504.04909}, 2015.
+
+\bibitem{Q-Dax}
+Bryan Lim, Maxime Allard, Luca Grillotti, and Antoine Cully.
+\newblock Accelerated quality-diversity through massive parallelism.
+\newblock {\em arXiv preprint arXiv:2202.01258}, 2022.
+
+\bibitem{evorbc_conf}
+Miguel Duarte, Jorge Gomes, Sancho~Moura Oliveira, and Anders~Lyhne
+  Christensen.
+\newblock Evorbc: Evolutionary repertoire-based control for robots with
+  arbitrary locomotion complexity.
+\newblock In {\em Proceedings of the Genetic and Evolutionary Computation
+  Conference 2016}, pages 93--100, 2016.
+
+\bibitem{GP_posterior}
+Thomas~J Page~Jr.
+\newblock Multivariate statistics: A vector space approach.
+\newblock {\em JMR, Journal of Marketing Research (pre-1986)}, 21(000002):236,
+  1984.
+
+\bibitem{Matern}
+Thomas~J Santner, Brian~J Williams, William~I Notz, and Brain~J Williams.
+\newblock {\em The design and analysis of computer experiments}, volume~1.
+\newblock Springer, 2003.
+
+\bibitem{MCTS}
+Guillaume Chaslot, Sander Bakkes, Istvan Szita, and Pieter Spronck.
+\newblock Monte-carlo tree search: A new framework for game ai.
+\newblock In {\em Proceedings of the AAAI Conference on Artificial Intelligence
+  and Interactive Digital Entertainment}, volume~4, pages 216--217, 2008.
+
+\bibitem{APROL}
+Rituraj Kaushik, Pierre Desreumaux, and Jean-Baptiste Mouret.
+\newblock Adaptive prior selection for repertoire-based online learning in
+  robotics.
+\newblock {\em arXiv preprint arXiv:1907.07029}, 2019.
+
+\bibitem{DP}
+Thomas~S Ferguson.
+\newblock A bayesian analysis of some nonparametric problems.
+\newblock {\em The annals of statistics}, pages 209--230, 1973.
+
+\bibitem{Gibbs_sampling}
+Radford~M Neal.
+\newblock Markov chain sampling methods for dirichlet process mixture models.
+\newblock {\em Journal of computational and graphical statistics},
+  9(2):249--265, 2000.
+
+\bibitem{Gibbs}
+Stuart Geman and Donald Geman.
+\newblock Stochastic relaxation, gibbs distributions, and the bayesian
+  restoration of images.
+\newblock {\em IEEE Transactions on pattern analysis and machine intelligence},
+  (6):721--741, 1984.
+
+\bibitem{variational_method}
+David~M Blei and Michael~I Jordan.
+\newblock Variational inference for dirichlet process mixtures.
+\newblock 2006.
+
+\bibitem{MCMC}
+Sean~P Meyn and Richard~L Tweedie.
+\newblock {\em Markov chains and stochastic stability}.
+\newblock Springer Science \& Business Media, 2012.
+
+\bibitem{Bayesian_mixture}
+Sylvia Richardson and Peter~J Green.
+\newblock On bayesian analysis of mixtures with an unknown number of components
+  (with discussion).
+\newblock {\em Journal of the Royal Statistical Society Series B: Statistical
+  Methodology}, 59(4):731--792, 1997.
+
+\bibitem{EM}
+Arthur~P Dempster, Nan~M Laird, and Donald~B Rubin.
+\newblock Maximum likelihood from incomplete data via the em algorithm.
+\newblock {\em Journal of the royal statistical society: series B
+  (methodological)}, 39(1):1--22, 1977.
+
+\bibitem{infinite_GMM}
+Carl Rasmussen.
+\newblock The infinite gaussian mixture model.
+\newblock {\em Advances in neural information processing systems}, 12, 1999.
+
+\bibitem{infinite_MGP}
+Carl Rasmussen and Zoubin Ghahramani.
+\newblock Infinite mixtures of gaussian process experts.
+\newblock {\em Advances in neural information processing systems}, 14, 2001.
+
+\bibitem{variational_MGP}
+Shiliang Sun and Xin Xu.
+\newblock Variational inference for infinite mixtures of gaussian processes
+  with applications to traffic flow prediction.
+\newblock {\em IEEE Transactions on Intelligent Transportation Systems},
+  12(2):466--475, 2010.
+
+\bibitem{L-BFGS-B}
+Ciyou Zhu, Richard~H Byrd, Peihuang Lu, and Jorge Nocedal.
+\newblock Algorithm 778: L-bfgs-b: Fortran subroutines for large-scale
+  bound-constrained optimization.
+\newblock {\em ACM Transactions on mathematical software (TOMS)},
+  23(4):550--560, 1997.
+
+\end{thebibliography}

@@ -1,0 +1,52 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: paper.aux
+The style file: unsrt.bst
+Database file #1: reference.bib
+Warning--can't use both volume and number fields in GP
+Warning--can't use both volume and number fields in k-means
+Warning--can't use both volume and number fields in MCTS
+Warning--there's a number but no volume in Gibbs
+Warning--empty journal in variational_method
+You've used 31 entries,
+            1791 wiz_defined-function locations,
+            658 strings with 9555 characters,
+and the built_in function-call counts, 7757 in all, are:
+= -- 690
+> -- 373
+< -- 11
++ -- 136
+- -- 105
+* -- 527
+:= -- 1208
+add.period$ -- 95
+call.type$ -- 31
+change.case$ -- 28
+chr.to.int$ -- 0
+cite$ -- 36
+duplicate$ -- 348
+empty$ -- 728
+format.name$ -- 105
+if$ -- 1734
+int.to.chr$ -- 0
+int.to.str$ -- 31
+missing$ -- 33
+newline$ -- 157
+num.names$ -- 31
+pop$ -- 93
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 185
+stack$ -- 0
+substring$ -- 505
+swap$ -- 102
+text.length$ -- 11
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 5
+while$ -- 77
+width$ -- 33
+write$ -- 338
+(There were 5 warnings)

@@ -1,0 +1,11 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Related Works}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Quality-Diversity Optimization}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Gaussian Process}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Reset-free Trial-and-Error Learning}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.4}{Dirichlet Process Mixture Model}{section.2}% 6
+\BOOKMARK [1][-]{section.3}{Methodology}{}% 7
+\BOOKMARK [2][-]{subsection.3.1}{Linear Prior Mean Function}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.2}{Choosing the Dynamics Representation}{section.3}% 9
+\BOOKMARK [1][-]{section.4}{Experiment}{}% 10
+\BOOKMARK [1][-]{section*.1}{References}{}% 11
