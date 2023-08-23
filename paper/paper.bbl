@@ -182,11 +182,36 @@ Shiliang Sun and Xin Xu.
 \newblock {\em IEEE Transactions on Intelligent Transportation Systems},
   12(2):466--475, 2010.
 
+\bibitem{PCA}
+Karl Pearson.
+\newblock Liii. on lines and planes of closest fit to systems of points in
+  space.
+\newblock {\em The London, Edinburgh, and Dublin philosophical magazine and
+  journal of science}, 2(11):559--572, 1901.
+
+\bibitem{Kasa_method}
+I~K{\aa}sa.
+\newblock A circle fitting procedure and its error analysis.
+\newblock {\em IEEE Transactions on instrumentation and measurement},
+  (1):8--14, 1976.
+
+\bibitem{circle_fitting}
+Corneliu Rusu, Marius Tico, Pauli Kuosmanen, and Edward~J Delp.
+\newblock Classical geometrical approach to circle fitting—review and new
+  developments.
+\newblock {\em Journal of Electronic Imaging}, 12(1):179--193, 2003.
+
 \bibitem{L-BFGS-B}
 Ciyou Zhu, Richard~H Byrd, Peihuang Lu, and Jorge Nocedal.
 \newblock Algorithm 778: L-bfgs-b: Fortran subroutines for large-scale
   bound-constrained optimization.
 \newblock {\em ACM Transactions on mathematical software (TOMS)},
   23(4):550--560, 1997.
+
+\bibitem{error_analysis}
+John~Robert Taylor and William Thompson.
+\newblock {\em An introduction to error analysis: the study of uncertainties in
+  physical measurements}, volume~2.
+\newblock Springer, 1982.
 
 \end{thebibliography}

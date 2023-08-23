@@ -394,7 +394,7 @@ The dynamics can efficiently expressed in the following form:
 \begin{equation}
 x_d(\bm{\beta}, \bm{\epsilon}) = f_d(\bm{\beta}, \bm{\epsilon}) 
 + g_d(\bm{\beta}) 
-+ h_d(\bm{\epsilon}) + c_d
++ h_d(\bm{\epsilon}) + c_d 
 \label{dynamics_assumption}
 \end{equation}
 where the $x_d$ stands for the $d^{\text{th}}$ dimension of the policy rollout outcome (for example, this can be the robot displacement in the $x$ axis). Vector $\bm{\beta}$ represents the behaviour descriptor of the controller; vector $\bm{\epsilon}$ is the environment descriptor, representing some quantities of the environment. 
@@ -406,7 +406,7 @@ Eq. (\ref{dynamics_assumption}) is generally non-linear. But in the case where t
 f_d(\bm{\beta}, \bm{\epsilon}) \approx
 f_d(\bm{\beta}_0, \bm{\epsilon}_0) + 
 \begin{bmatrix}
-J_{\bm{\beta}_0} & J_{\bm{\epsilon}_0} \\
+J_{\bm{0, \beta}} & J_{\bm{0, \epsilon}} \\
 \end{bmatrix}
 %
 \begin{bmatrix}
@@ -422,8 +422,8 @@ J_{\bm{\beta}_0} & J_{\bm{\epsilon}_0} \\
 \end{bmatrix}
 %
 \begin{bmatrix}
-H_{\bm{\beta}_0 \bm{\beta}_0} & H_{\bm{\beta}_0 \bm{\epsilon}_0} \\
-H_{\bm{\epsilon}_0 \bm{\beta}_0} & H_{\bm{\epsilon}_0 \bm{\epsilon}_0} \\
+H_{\bm{0, \beta \beta}} & H_{\bm{0}, \bm{\beta \epsilon}} \\
+H_{\bm{0, \epsilon \beta}} & H_{\bm{0, \epsilon \epsilon}} \\
 \end{bmatrix}
 %
 \begin{bmatrix}
@@ -433,22 +433,20 @@ H_{\bm{\epsilon}_0 \bm{\beta}_0} & H_{\bm{\epsilon}_0 \bm{\epsilon}_0} \\
 \end{gathered}
 \label{Taylor_expansion}
 \end{equation}
-where the Jacobian vector $J$ and the Hessian matrix $H$ have been arranged in the partitioned form.
+where the Jacobian vector $J_{\bm{0}}$ and the Hessian matrix $H_{\bm{0}}$ have been arranged in the partitioned form, and their subscript 0 denotes they are evaluated at $(\bm{\beta}_0, \bm{\epsilon}_0)$.
 We then substitute this result into Eq. (\ref{dynamics_assumption}) to arrive at:
 \begin{equation}
 \begin{gathered}
 x_d(\bm{\beta}, \bm{\epsilon}) \approx
-\Delta \bm{\beta}^T H_{\bm{\beta}_0 \bm{\epsilon}_0} 
-\Delta \bm{\epsilon}
+\Delta \bm{\beta}^T H_{\bm{0, \beta \epsilon}} \Delta \bm{\epsilon}
 + f_d(\bm{\beta}_0, \bm{\epsilon}_0) + c_d
 \\ + 
-\frac{1}{2} \Delta \bm{\beta}^T H_{\bm{\beta}_0 \bm{\beta}_0} 
-\Delta \bm{\beta} 
-+ J_{\bm{\beta}_0} \Delta \bm{\beta}
+\frac{1}{2} \Delta \bm{\beta}^T H_{\bm{0, \beta \beta}} \Delta \bm{\beta} 
++ J_{\bm{0, \beta}} \Delta \bm{\beta}
 + g_d(\bm{\beta}) 
 \\
-+ \frac{1}{2} \Delta \bm{\epsilon}^T H_{\bm{\epsilon}_0 \bm{\epsilon}_0} \Delta \bm{\epsilon}
-+ J_{\bm{\epsilon}_0} \Delta \bm{\epsilon}
++ \frac{1}{2} \Delta \bm{\epsilon}^T H_{\bm{0, \epsilon \epsilon}} \Delta \bm{\epsilon}
++ J_{\bm{0, \epsilon}} \Delta \bm{\epsilon}
 + h_d(\bm{\epsilon}) 
 \end{gathered}
 \label{approximation}
@@ -459,15 +457,15 @@ Comparing Eq. (\ref{approximation}) with Eq. (\ref{dynamics_assumption}), we can
 \begin{gathered}
 x_d(\bm{\beta}, \bm{\epsilon}_1) - 
 x_d(\bm{\beta}, \bm{\epsilon}_2) \approx
-\Delta \bm{\beta}^T H_{\bm{\beta}_0 \bm{\epsilon}_0} 
+\Delta \bm{\beta}^T H_{\bm{0, \beta \epsilon}} 
 (\bm{\epsilon}_1 - \bm{\epsilon}_2)
 \\
 + h^*_d(\bm{\epsilon}_1) - h^*_d(\bm{\epsilon}_2) 
 \\
 \text{where \,}
 h^*_d(\bm{\epsilon}) = 
-\frac{1}{2} \Delta \bm{\epsilon}^T H_{\bm{\epsilon}_0 \bm{\epsilon}_0} \Delta \bm{\epsilon}
-+ J_{\bm{\epsilon}_0} \Delta \bm{\epsilon}
+\frac{1}{2} \Delta \bm{\epsilon}^T H_{\bm{0, \epsilon \epsilon}} \Delta \bm{\epsilon}
++ J_{\bm{0, \epsilon}} \Delta \bm{\epsilon}
 + h_d(\bm{\epsilon}) 
 \end{gathered}
 \label{dynamics_diff}
@@ -483,9 +481,9 @@ If we treat the $h^*_d(\bm{\epsilon})$ term as an additional dimension of the en
 \end{bmatrix}
 \approx
 \begin{bmatrix}
-\Delta \bm{\beta}_1^T H_{\bm{\beta}_0 \bm{\epsilon}_0} & 1 \\
-\vdots \\
-\Delta \bm{\beta}_N^T H_{\bm{\beta}_0 \bm{\epsilon}_0} & 1 \\
+\Delta \bm{\beta}_1^T H_{\bm{0, \beta \epsilon}} & 1 \\
+\vdots & \vdots \\
+\Delta \bm{\beta}_N^T H_{\bm{0, \beta \epsilon}} & 1 \\
 \end{bmatrix}
 \Delta \bm{\varepsilon} 
 \\
@@ -498,29 +496,32 @@ The vector $\Delta \bm{x}_d$ stands for the difference in dynamics for the entir
 Combined with the assumption we made about the simulation, Eq. (\ref{linear_form}) suggests we may approximate the real-world distortion of the entire repertoire using a linear model. 
 
 
-Although this is a very potent result, we still do not have access to the matrix $W_d$ or the environment vector $\bm{\varepsilon}$. 
+The above derivations can be extended to any order of Taylor expansion, but the dimension of the new environment vector $\bm{\varepsilon}$ increases exponentially after the second order.
+If we assume the dynamics can be efficiently approximated with the second order expansion, Eq. (\ref{linear_form}) gives a very potent result.
+However, we do not have access to the matrix $W_d$ or the environment vector $\bm{\varepsilon}$ directly. 
 Instead, we can leverage the fact that any environment vector can be linearly represented by a set of environment vectors as the basis.
-Hence, if we have collected enough distortions, we can represent any new distortion with:
+Hence, if we have collected enough distortions, any new distortion can be  represented with a linear combination of the collected ones:
 \begin{equation}
 \begin{gathered}
-\Delta \bm{x}_d \approx
+\Delta \bm{x}_d^* \approx
+W_{d}^T \Delta \bm{\varepsilon}^* = 
 W_{d}^T
 \begin{bmatrix}
 \Delta \bm{\varepsilon}^{(1)}, \cdots, \Delta \bm{\varepsilon}^{(n)}
 \end{bmatrix}
 \begin{bmatrix}
-\omega_1 \\
+\omega_1^* \\
 \vdots \\
-\omega_n \\
+\omega_n^* \\
 \end{bmatrix}
 \\ =
 \begin{bmatrix}
 \Delta \bm{x}_d^{(1)}, \cdots, \Delta \bm{x}_d^{(n)}
 \end{bmatrix}
 \begin{bmatrix}
-\omega_1 \\
+\omega_1^* \\
 \vdots \\
-\omega_n \\
+\omega_n^* \\
 \end{bmatrix}
 \end{gathered}
 \label{linear_combination}
@@ -530,10 +531,10 @@ Since typically a repertoire can contain of a few thousand policies,
 we cannot afford to do such amount of evaluations in the real-world, and hence we need to rely on simulation.
 
 
-A question is that how many distortion we should collect.
-If we get too few distortions, we cannot cover the entire space, and the linear model will perform poorly in uncovered environments.
-On the other hand, if we have too many, it will be computationally expensive and lead to very large dimension. 
-The solution is collect as many as we can and then reduce the dimensionality with singular vector decomposition (SVD). The collection of distortions can be represented as:
+A question is that how many distortions we should collect.
+If we get too few distortions, we might not have collected all the basis, and the linear model will perform poorly in uncovered environments.
+On the other hand, if we have collected too many, not only will this be computationally expensive but this will also lead to very large dimensions. 
+The solution is collect as many as we can afford and then reduce the dimensionality with singular vector decomposition (SVD). The collection of distortions can be represented as:
 \begin{equation}
 \bm{A} = 
 \begin{bmatrix}
@@ -585,8 +586,140 @@ The eigenvalues denote the importance of each base vector.
 If an eigenvalue is zero, we can completely ignore this dimension as it can be linearly represented by other basis.
 In practice, since evaluations are noisy and our linear relation is approximated, we will never get any zero eigenvalues. 
 To continue with our dimensionality reduction, we can rearrange the eigenvalues in a descending order and keep only the first few terms depending on how many dimensions we wish to have.
-Thus, we can approximate the real-world distortion using a linear combination of simulated distortions filtered by SVD.
-Although this is just an approximation, it should serve well as of the prior mean function of GP.
+Thus, we can approximate any real-world distortion using a linear combination of simulated distortions filtered by SVD.
+Although this is just an approximation, it should serve well as the prior mean function of GP.
+
+
+\subsection{Determine the Input Space}
+The GP requires the input space for the kernel to build the covariance matrix.
+In the RTE, this is the same as the $x$ and $y$ displacements.
+Considering the policies are generated using the MAP-Elites instead of gradient based methods, policies having similar displacements might have very different behaviours.
+As a result, they may lead to very different outcomes in new environments, and the use of such input space could be misleading.
+Hence, we aim to find the input space in which the distances between policies are related to their outcomes in all environments. 
+
+By examining our assumption of dynamics in Eq. (\ref{linear_form}), we see that the behaviour vectors that are encoded in the $W_d$ matrix.
+By rearranging Eq. (\ref{linear_form}), we can get:
+\begin{equation}
+\begin{gathered}
+W_{d}^T \Delta \bm{\varepsilon} = 
+\begin{bmatrix}
+\Delta \bm{\beta}_1^T & 1\\
+\vdots & \vdots \\
+\Delta \bm{\beta}_N^T & 1\\
+\end{bmatrix}
+%
+\begin{bmatrix}
+H_{\bm{0, \beta \epsilon}} & 0 \\
+\\
+0 & 1 \\
+\end{bmatrix}
+\Delta \bm{\varepsilon}
+\end{gathered}
+\label{linear_form_for_beta}
+\end{equation}
+Since we have found the basis that can linearly represent any environment vector $\bm{\varepsilon}$, we can always find a particular set of $\bm{\varepsilon}$ such that:
+\begin{equation}
+\begin{gathered}
+W_{d}^T
+\begin{bmatrix}
+\Delta \bm{\varepsilon}_1, \cdots , \Delta \bm{\varepsilon}_N
+\end{bmatrix}
+= \\
+\begin{bmatrix}
+\Delta \bm{\beta}_1^T & 1\\
+\vdots & \vdots \\
+\Delta \bm{\beta}_N^T & 1\\
+\end{bmatrix}
+%
+\begin{bmatrix}
+H_{\bm{0, \beta \epsilon}} & 0 \\
+\\
+0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+H_{\bm{0, \beta \epsilon}}^T
+(H_{\bm{0, \beta \epsilon}}H_{\bm{0, \beta \epsilon}}^T)^{-1} \\
+\\
+0 \\
+\end{bmatrix}
+\\ 
+= 
+\begin{bmatrix}
+\Delta \bm{\beta}_1^T & 1\\
+\vdots & \vdots \\
+\Delta \bm{\beta}_N^T & 1\\
+\end{bmatrix}
+%
+\begin{bmatrix}
+\mathbf{I} \\
+\\
+0 \\
+\end{bmatrix} 
+= 
+\begin{bmatrix}
+\Delta \bm{\beta}_1^T \\
+\vdots \\
+\Delta \bm{\beta}_N^T \\
+\end{bmatrix}
+\end{gathered}
+\label{beta}
+\end{equation}
+This means we are able to represent the behaviour vectors as a linear combination of the distortion basis we found for the linear prior mean function.
+This is a very reasonable result since if two policies have similar outcomes across many environments, they are more likely to share similar distortions in a new environment.
+Note that the above derivations only hold if the dimension of the behaviour vector is not larger than the dimension of environment vector, otherwise the $H_{\bm{0, \beta \epsilon}}H_{\bm{0, \beta \epsilon}}^T$ matrix is not invertible.
+However, our purpose of finding the behaviour vectors is just to build statistical inference between policies, which tolerates uncertainties.
+In the case there are omitted dimensions, we can just add a larger noise to the diagonal of the covariance matrix to incorporate this missing information.
+
+
+It is hard to determine the detailed linear combination to get the behaviour vectors.
+But considering the use of anisotropic length scales for the distance metric in Eq. (\ref{distance_metric}), it is desirable to find a linear combination to reduce the correlations between the dimensions.
+This is achieved using principle component analysis (PCA) \cite{PCA}. We first find the empirical covariance matrix of the standardized distortions.
+\begin{equation}
+\begin{gathered}
+\bm{\Sigma} = \bm{X}^T \bm{X}
+\end{gathered}
+\label{cov}
+\end{equation}
+$\bm{X}$ is a $N \times s$ matrix, where $N$ is the size of the repertoire (the amount of elementary policies) and $s$ is the number of basis found using SVD.
+Each column of $\bm{X}$, namely each dimension of basis, is standardized across the policies.
+The covariance matrix $\bm{\Sigma}$ is a real-symmetric matrix, according to spectral theorem, it can be represented by:
+\begin{equation}
+\begin{gathered}
+\bm{\Sigma} = 
+\sum_{i=1}^s \lambda_i \bm{u}_i \bm{u}_i^T = \bm{U} \bm{D} \bm{U}^T
+\end{gathered}
+\label{PCA}
+\end{equation}
+Similar to SVD, the $\lambda_i$ are the eigenvalues of the covariance matrix, and $\bm{U}$ contains the corresponding eigenvectors.
+%Similar to SVD, these eigenvalues are non-negative and give the importance of each dimension (see Fig. \ref{}).
+We can then find our input space with the following transform:
+\begin{equation}
+\begin{gathered}
+\begin{bmatrix}
+\bm{v}'_1, \cdots, \bm{v}'_s
+\end{bmatrix}
+=
+\begin{bmatrix}
+\bm{v}_1, \cdots, \bm{v}_s
+\end{bmatrix}
+\bm{U} \sqrt{\bm{D}^{-1}}
+\end{gathered}
+\label{input_space}
+\end{equation}
+This gives the coordinates of each elementary policy in our input space. Each dimension of the coordinates are now decorrelated (see Fig. \ref{PCA_outcome}).
+%
+\begin{figure}[h]
+\centering
+\subfloat[]{\includegraphics[width=0.255\textwidth]{before_pca.pdf}%
+\label{fig_first_case}}
+%\hfil
+\subfloat[]{\includegraphics[width=0.195\textwidth]{after_pca.pdf}%
+\label{fig_second_case}}
+\caption{Example of PCA transform. Original data distribution is given by (a), where the two axes are highly correlated. (b) is the resultant distribution after applying Eq. (\ref{input_space}), where the correlation is removed.}
+\label{PCA_outcome}
+\end{figure}
+
+
 
 \subsection{Choosing the Dynamics Representation}
 We can use different representations of the dynamics $x_d$ in Eq. (\ref{dynamics_assumption}).
@@ -594,11 +727,13 @@ Apart from using $x$ and $y$ displacements (called displacement-based representa
 Since RTE uses periodic controllers, the robot will experience the same displacement and rotation during each period, and the execution should result in an arc.
 Based on this analysis, we represent the dynamics as the tangential speed $v$, angular velocity $\omega$ and direction $\varphi$ (see Fig. \ref{arcs}). 
 This design, called arc-based representation, considers the fact that the different dimensions of the dynamics are modelled by different GPs (hence are decoupled) in RTE.
-This is not an ideal design since x and y are typically correlated.
+This is not an ideal design since $x$ and $y$ are typically correlated.
 In arc-based representation, these parameters are more decoupled and more consistent with real-world mechanics. 
-For example, if the robot is carrying heavy payload, it will be slower and get a smaller $v$ for all policies. 
-If it suffers damage in one of its legs, all policies will get a shift in their angular velocities and directions.
-However, for displacement based representation, reduced speed will lead to decrease for positive displacements and increase for negative displacements. Rotational and directional change will lead to $x$ and $y$ being heavily correlated.
+Take a hexapod robot for example.
+If the robot is carrying heavy payload and becomes slower, arc-based representation can easily model this distortion by reducing $v$ for all policies. However, for displacement based representation, reduced speed will lead to decrease for positive displacements and increase for negative displacements.
+In the case where the robot suffers damage in one of its legs, the side of the damaged leg will contribute lesser force, and the robot might move towards a different direction or rotate during the motion.
+For arc-based representation, this can be modelled by adding a shift to the angular velocities and directions of the policies.
+While it is a lot harder for the displacement-base representation, and $x$ and $y$ will become strongly correlated.
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.45\textwidth]{example_curves.pdf}
@@ -609,15 +744,18 @@ All the curves are generated after 4 seconds of movement.
 \label{arcs}
 \end{figure}
 
-To implement arc-based representation, we will need to get the three parameters from the trajectory. 
-During the execution of each policy, we record the x and y positions of the robot as well as the time.
-We do this by first finding the center and radius of the arc:
+To implement arc-based representation, we will need to get the three parameters $v$, $\omega$ and $\varphi$ from the trajectory. 
+During the execution of each policy, we record the $x$ and $y$ positions of the robot as well as the time.
+For a perfect arc, the points on the trajectory should obey the following equation:
 \begin{equation}
 (x - A)^2 + (y - B)^2 = A^2 + B^2
 \label{circle_equation}
 \end{equation}
-Where $A$ and $B$ are the $x$ and $y$ coordinates of the center. In Eq. (\ref{circle_equation}) we force the curve to pass through the origin, which is the initial position of the robot.
-The optimal result should minimize the loss function: 
+Where $A$ and $B$ are the $x$ and $y$ coordinates of the center. In Eq. (\ref{circle_equation}) we have forced the curve to pass through the origin, which is the initial position of the robot.
+Analytical estimate of the center can be provided by the classical circle fitting method called Kasa method \cite{Kasa_method}.
+But this estimation is biased unless the points are symmetrically distributed across the entire circumference \cite{circle_fitting}.
+While in most cases, the trajectory of the robot covers less than a quarter circle, and sometimes it is even a straight line.
+Hence the Kasa method is not appropriate, and we aim to minimize the unbiased loss function: 
 \begin{equation}
 \mathcal{L} = 
 \sum_{i=1}^N \left[
@@ -625,7 +763,7 @@ The optimal result should minimize the loss function:
 \right]^2
 \label{circle_error}
 \end{equation}
-The optimal solution of this loss function cannot be obtained analytically, hence we use L-BFGS-B \cite{L-BFGS-B} optimization algorithm instead.
+The optimal solution of this loss function is hard to obtain analytically, hence we use L-BFGS-B \cite{L-BFGS-B} optimization algorithm instead.
 After finding the $A$ and $B$, we then get the angular change between each time step.
 This is achieved by taking the cross product between the neighbouring points:
 \begin{equation}
@@ -637,8 +775,8 @@ This is achieved by taking the cross product between the neighbouring points:
 \end{gathered}
 \label{delta_theta}
 \end{equation}
-Because the $\sin (x)$ function is monotonically increasing between $[-\frac{\pi}{2}, \frac{\pi}{2}]$, we can also determine the sign of the angular difference (positive for anti-clockwise).
-All three parameters can then be calculated:
+Because the $\sin (x)$ function is monotonically increasing between $[-\frac{\pi}{2}, \frac{\pi}{2}]$, we can determine the sign of the angular difference (positive for anti-clockwise).
+Then, all three parameters can be calculated:
 \begin{equation}
 \begin{gathered}
 \omega = \frac{
@@ -651,16 +789,171 @@ v = \sqrt{A^2 \omega^2 + B^2 \omega^2}
 \varphi = \operatorname{atan2}(-B, -A) + 
 \begin{cases} 
 \frac{\pi}{2} & \text{if } \omega > 0 \\
--\frac{\pi}{2} & \text{if } \omega \leq 0 
+-\frac{\pi}{2} & \text{if } \omega < 0 
 \end{cases}
 \end{gathered}
-\label{w_and_v}
+\label{all_three_parameters}
 \end{equation}
+%
+To correctly determine the direction, Eq. (\ref{all_three_parameters}) suggests that we need to make sure the $\omega$ is never zero even for a straight line.
+In practice, we can achieve this by giving an upper bound to the absolute values of the center coordinates $A$ and $B$, which is the reason we use L-BFGS-B optimization algorithm.
+This ensures that the center will not tend to infinity, and hence the absolute value of $\omega$ will always be positive for any trajectory. 
+In the extreme case where the robot remains stationary, we must still assign a non-zero value to the $\omega$ to avoid zero division in further calculations, but the direction $\varphi$ can take any value.
 
+
+One thing to notice is that while the measurement of tangential speed $v$ is always accurate, the measurement of $\omega$ and $\varphi$ can be very noisy in some cases.
+For example, if the robot barely moves, the trajectory will be dominated by noise.
+Hence the angular velocity $\omega$ and the direction $\varphi$ will become very noisy although they barely make any difference.
+While in the case when the robot is travelling fast, $\omega$ and $\varphi$ will be very important and will have accurate measurements as well.
+Hence, when modelling the arc-based dynamics representation with GP, it is reasonable to give different noises for different parameters in different trajectories.
+
+%To achieve this, we first assume that the sum of uncertainties for the final coordinates, namely $\sigma_x^2 + \sigma_y^2$, has the same value for all policies.
+%Considering the robot will also have periodic deviations from the arc trajectory during its motion.
+%The position is a superposition of the trajectory and the deviation.
+%We can treat this deviation as an random variable and decouple it from the final coordinates to get:
+
+To achieve this, we know that the robot coordinates can be regarded as a superposition of the ground truth and a random noise.
+Our parameters calculated using Eq. (\ref{all_three_parameters}) correspond to the best-fit arc, and are also affected by this noise.
+If we only focus on the final position after executing a policy, and we assume that the random noise only depends on the environment but not the policies, we can write:
+%
+\begin{equation}
+\begin{gathered}
+\sigma_{\hat{x}}^2 + \sigma_{\hat{y}}^2 = 2 \sigma_{\epsilon}^2
+\end{gathered}
+\label{summed_variance}
+\end{equation}
+%
+where we have assumed the same noise variance $\sigma_{\epsilon}^2$ on both $x$ and $y$ axis.
+The $\hat{x}$ and $\hat{y}$ denote the final coordinates given by the arc, where:
+\begin{equation}
+\begin{gathered}
+\hat{x}(t | v, \omega, \varphi) 
+%= \int_0^t v \cdot \cos(\varphi + \omega \tau) d\tau 
+= \frac{v}{w} \left[ \sin(\omega t + \varphi) - \sin(\varphi) \right]
+\\
+\hat{y}(t | v, \omega, \varphi) 
+%= \int_0^t v \cdot \sin(\varphi + \omega \tau) d\tau 
+= \frac{v}{w} \left[ \cos(\varphi) - \cos(\omega t + \varphi) \right]
+\end{gathered}
+\label{position_from_arc}
+\end{equation}
+%
+The term $\sigma_{\hat{x}}^2$ and $\sigma_{\hat{y}}^2$ in Eq. (\ref{summed_variance}) are related to the uncertainties in our measurement of $v$, $\omega$ and $\varphi$.
+To study this relation, we model the error propagation with linear approximation, where the error of the random variable $f(x, y, z)$ is given by \cite{error_analysis}:
+\begin{equation}
+\begin{gathered}
+\sigma_f^2 \approx
+\frac{\partial f}{\partial x}^2 \sigma_x^2
++ \frac{\partial f}{\partial y}^2 \sigma_y^2
++ \frac{\partial f}{\partial z}^2 \sigma_z^2
+\end{gathered}
+\label{error_prapagation}
+\end{equation}
+Eq. (\ref{error_prapagation}) requires the random variables $x$, $y$ and $z$ be independent, which is consistent with our design.
+Combining the above three equations, we will get:
+\begin{equation}
+\begin{gathered}
+2\sigma_{\epsilon}^2 \approx 
+\left(
+ \frac{\partial \hat{x}}{\partial v}^2
+ + \frac{\partial \hat{y}}{\partial v}^2
+\right) \sigma_v^2 
+\\ +
+\left(
+\frac{\partial \hat{x}}{\partial \omega}^2
++
+\frac{\partial \hat{y}}{\partial \omega}^2
+\right) \sigma_{\omega}^2 
+ +
+\left(
+\frac{\partial \hat{x}}{\partial \varphi}^2
++ 
+\frac{\partial \hat{y}}{\partial \varphi}^2
+\right) \sigma_{\varphi}^2
+\end{gathered}
+\label{combined_error_relation}
+\end{equation}
+Since the LHS of the Eq. (\ref{combined_error_relation}) is invariant to the policies, it is reasonable to assume that:
+\begin{equation}
+\begin{gathered}
+\sigma_v^2 \propto
+\frac{1}{
+\frac{\partial \hat{x}}{\partial v}^2 
++ \frac{\partial \hat{y}}{\partial v}^2 + \varepsilon_v} \sigma_{\epsilon}^2
+\\
+\sigma_{\omega}^2 \propto
+\frac{1}{
+\frac{\partial \hat{x}}{\partial \omega}^2
++
+\frac{\partial \hat{y}}{\partial \omega}^2 + \varepsilon_{\omega}} \sigma_{\epsilon}^2
+\\
+\sigma_{\varphi}^2 \propto
+\frac{1}{
+\frac{\partial \hat{x}}{\partial \varphi}^2
++ 
+\frac{\partial \hat{y}}{\partial \varphi}^2 + \varepsilon_{\varphi}} \sigma_{\epsilon}^2
+\end{gathered}
+\label{noises_for_v_w_phi}
+\end{equation}
+where a positive small constant is added at the each denominator for numerical stability.
+This result is very reasonable as higher dependency on the parameter leads to smaller noise.
+Although Eq. (\ref{noises_for_v_w_phi}) doesn't give the exact value for the noises, it provides a method to calculate relative noises between different policies in the same environment.
+
+
+
+\subsection{Clustering the Dynamics with Dirichlet Processes}
+So far, we have determined the basis for our linear prior mean function, the input space, different representations of dynamics as well as the way to calculate relative noises.
+To cluster the historical data with DP, we still need the prior distribution $H$ for the detailed parameters. 
+In our case where the dynamics are modelled by GP, these parameters include the weights $\bm{w}$ for the linear mean function, the length scales $\bm{l}_d$ and the prior variance $\alpha_0$ for the kernel, and the noises $\sigma_{\epsilon}^2$ for covariance matrix.
+
+
+This is hard to do since we have little knowledge.
+Even if we could give a perfect prior distribution, the integrals in Eq. (\ref{integral_1}) and Eq. (\ref{integral_2}) are intractable.
+The solution is use Monte Carlo sampling in simulation combined with a trick called posterior convergence estimate.
+We can see that these parameters are all related to the environment.
+The Monte Carlo sampling is to collect a sample of these environment related parameters from the simulation as our prior distribution $H$.
+
+
+To do this randomize the simulation settings to get a sample from the environment
+
+and collect several data from each simulation.
+The data size should be sufficient (e.g. evaluate 64 policies)
+
+
+
+
+\subsection{Online Learning and Adaptation}
 
 
 
 \section{Experiment}
+
+
+\subsection{Robot Setup}
+
+
+\subsection{Generating the Repertoire with MAP-Elites}
+
+\subsection{Determine the Basis with SVD}
+
+\subsection{Data preparation}
+
+
+
+
+
+\section{Results and Analysis}
+
+\subsection{Dirichlet Process Clustering}
+
+
+\subsection{Online Learning the Dynamics}
+
+\subsection{Tunnel Navigation Challenge}
+
+
+\section{Conclusion}
+
 
 
 

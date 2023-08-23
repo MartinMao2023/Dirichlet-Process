@@ -79,8 +79,37 @@
 \newlabel{SVD}{{24}{6}{Linear Prior Mean Function}{equation.3.24}{}}
 \newlabel{ATA}{{25}{6}{Linear Prior Mean Function}{equation.3.25}{}}
 \newlabel{basis}{{26}{6}{Linear Prior Mean Function}{equation.3.26}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Choosing the Dynamics Representation}{6}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Determine the Input Space}{6}{subsection.3.2}\protected@file@percent }
+\citation{PCA}
+\citation{Kasa_method}
+\citation{circle_fitting}
+\newlabel{linear_form_for_beta}{{27}{7}{Determine the Input Space}{equation.3.27}{}}
+\newlabel{beta}{{28}{7}{Determine the Input Space}{equation.3.28}{}}
+\newlabel{cov}{{29}{7}{Determine the Input Space}{equation.3.29}{}}
+\newlabel{PCA}{{30}{7}{Determine the Input Space}{equation.3.30}{}}
+\newlabel{input_space}{{31}{7}{Determine the Input Space}{equation.3.31}{}}
+\newlabel{fig_first_case}{{1a}{7}{Subfigure 1a}{subfigure.1.1}{}}
+\newlabel{sub@fig_first_case}{{(a)}{a}{Subfigure 1a\relax }{subfigure.1.1}{}}
+\newlabel{fig_second_case}{{1b}{7}{Subfigure 1b}{subfigure.1.2}{}}
+\newlabel{sub@fig_second_case}{{(b)}{b}{Subfigure 1b\relax }{subfigure.1.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Example of PCA transform. Original data distribution is given by (a), where the two axes are highly correlated. (b) is the resultant distribution after applying Eq. (\ref  {input_space}), where the correlation is removed.}}{7}{figure.1}\protected@file@percent }
+\newlabel{PCA_outcome}{{1}{7}{Example of PCA transform. Original data distribution is given by (a), where the two axes are highly correlated. (b) is the resultant distribution after applying Eq. (\ref {input_space}), where the correlation is removed}{figure.1}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{7}{subfigure.1.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{7}{subfigure.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Choosing the Dynamics Representation}{7}{subsection.3.3}\protected@file@percent }
+\newlabel{circle_equation}{{32}{7}{Choosing the Dynamics Representation}{equation.3.32}{}}
 \citation{L-BFGS-B}
+\citation{error_analysis}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Arc trajectories with different $v$, $\omega $ and $\varphi $. Curve 1 has $v=0.5$, $\omega = 30^\circ /s$ and $\varphi = 90^\circ $. Curve 2 has $v=0.25$, $\omega = 0$ and $\varphi = 90^\circ $. Curve 3 shares the same $v$ and $\omega $ with curve 1 but having $\varphi = 0$. All the curves are generated after 4 seconds of movement. }}{8}{figure.2}\protected@file@percent }
+\newlabel{arcs}{{2}{8}{Arc trajectories with different $v$, $\omega $ and $\varphi $. Curve 1 has $v=0.5$, $\omega = 30^\circ /s$ and $\varphi = 90^\circ $. Curve 2 has $v=0.25$, $\omega = 0$ and $\varphi = 90^\circ $. Curve 3 shares the same $v$ and $\omega $ with curve 1 but having $\varphi = 0$. All the curves are generated after 4 seconds of movement}{figure.2}{}}
+\newlabel{circle_error}{{33}{8}{Choosing the Dynamics Representation}{equation.3.33}{}}
+\newlabel{delta_theta}{{34}{8}{Choosing the Dynamics Representation}{equation.3.34}{}}
+\newlabel{all_three_parameters}{{35}{8}{Choosing the Dynamics Representation}{equation.3.35}{}}
+\newlabel{summed_variance}{{36}{8}{Choosing the Dynamics Representation}{equation.3.36}{}}
+\newlabel{position_from_arc}{{37}{8}{Choosing the Dynamics Representation}{equation.3.37}{}}
+\newlabel{error_prapagation}{{38}{8}{Choosing the Dynamics Representation}{equation.3.38}{}}
+\newlabel{combined_error_relation}{{39}{8}{Choosing the Dynamics Representation}{equation.3.39}{}}
+\newlabel{noises_for_v_w_phi}{{40}{8}{Choosing the Dynamics Representation}{equation.3.40}{}}
 \bibstyle{unsrt}
 \bibdata{reference}
 \bibcite{alphaGo}{1}
@@ -105,14 +134,6 @@
 \bibcite{APROL}{20}
 \bibcite{DP}{21}
 \bibcite{Gibbs_sampling}{22}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Arc trajectories with different $v$, $\omega $ and $\varphi $. Curve 1 has $v=0.5$, $\omega = 30^\circ /s$ and $\varphi = 90^\circ $. Curve 2 has $v=0.25$, $\omega = 0$ and $\varphi = 90^\circ $. Curve 3 shares the same $v$ and $\omega $ with curve 1 but having $\varphi = 0$. All the curves are generated after 4 seconds of movement. }}{7}{figure.1}\protected@file@percent }
-\newlabel{arcs}{{1}{7}{Arc trajectories with different $v$, $\omega $ and $\varphi $. Curve 1 has $v=0.5$, $\omega = 30^\circ /s$ and $\varphi = 90^\circ $. Curve 2 has $v=0.25$, $\omega = 0$ and $\varphi = 90^\circ $. Curve 3 shares the same $v$ and $\omega $ with curve 1 but having $\varphi = 0$. All the curves are generated after 4 seconds of movement}{figure.1}{}}
-\newlabel{circle_equation}{{27}{7}{Choosing the Dynamics Representation}{equation.3.27}{}}
-\newlabel{circle_error}{{28}{7}{Choosing the Dynamics Representation}{equation.3.28}{}}
-\newlabel{delta_theta}{{29}{7}{Choosing the Dynamics Representation}{equation.3.29}{}}
-\newlabel{w_and_v}{{30}{7}{Choosing the Dynamics Representation}{equation.3.30}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {IV}Experiment}{7}{section.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{References}{7}{section*.1}\protected@file@percent }
 \bibcite{Gibbs}{23}
 \bibcite{variational_method}{24}
 \bibcite{MCMC}{25}
@@ -121,4 +142,21 @@
 \bibcite{infinite_GMM}{28}
 \bibcite{infinite_MGP}{29}
 \bibcite{variational_MGP}{30}
-\bibcite{L-BFGS-B}{31}
+\bibcite{PCA}{31}
+\bibcite{Kasa_method}{32}
+\bibcite{circle_fitting}{33}
+\bibcite{L-BFGS-B}{34}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Clustering the Dynamics with Dirichlet Processes}{9}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-E}}Online Learning and Adaptation}{9}{subsection.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Experiment}{9}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Robot Setup}{9}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Generating the Repertoire with MAP-Elites}{9}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Determine the Basis with SVD}{9}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Data preparation}{9}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {V}Results and Analysis}{9}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Dirichlet Process Clustering}{9}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Online Learning the Dynamics}{9}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Tunnel Navigation Challenge}{9}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion}{9}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{9}{section*.1}\protected@file@percent }
+\bibcite{error_analysis}{35}
