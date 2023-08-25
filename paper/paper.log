@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2023.8.10)  23 AUG 2023 20:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2023.8.10)  26 AUG 2023 00:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -535,55 +535,68 @@ Underfull \vbox (badness 1584) has occurred while \output is active []
 
  [2]
 [3] [4] [5] [6]
-<before_pca.pdf, id=271, 433.62pt x 325.215pt>
+<before_pca.pdf, id=269, 433.62pt x 325.215pt>
 File: before_pca.pdf Graphic file (type pdf)
 <use before_pca.pdf>
-Package pdftex.def Info: before_pca.pdf  used on input line 714.
+Package pdftex.def Info: before_pca.pdf  used on input line 742.
 (pdftex.def)             Requested size: 131.58252pt x 98.68674pt.
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 71
-4.
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 74
+2.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
 )
-<after_pca.pdf, id=272, 433.62pt x 433.62pt>
+<after_pca.pdf, id=270, 433.62pt x 433.62pt>
 File: after_pca.pdf Graphic file (type pdf)
 <use after_pca.pdf>
-Package pdftex.def Info: after_pca.pdf  used on input line 717.
+Package pdftex.def Info: after_pca.pdf  used on input line 745.
 (pdftex.def)             Requested size: 100.62378pt x 100.62372pt.
-<example_curves.pdf, id=277, 903.375pt x 578.16pt>
+<example_curves.pdf, id=275, 903.375pt x 578.16pt>
 File: example_curves.pdf Graphic file (type pdf)
 <use example_curves.pdf>
-Package pdftex.def Info: example_curves.pdf  used on input line 739.
+Package pdftex.def Info: example_curves.pdf  used on input line 767.
 (pdftex.def)             Requested size: 232.19843pt x 148.60658pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[7 <./before_pca.pdf> <./after_pca.pdf>] [8 <./example_curves.pdf>]
-(./paper.bbl
+[7 <./before_pca.pdf> <./after_pca.pdf>]
+Underfull \vbox (badness 1412) has occurred while \output is active []
+
+ [8 <./example_curves.pdf>]
+<posterior_convergence.pdf, id=387, 462.52798pt x 346.89601pt>
+File: posterior_convergence.pdf Graphic file (type pdf)
+<use posterior_convergence.pdf>
+Package pdftex.def Info: posterior_convergence.pdf  used on input line 1002.
+(pdftex.def)             Requested size: 232.19843pt x 174.15157pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[9] [10 <./posterior_convergence.pdf>] (./paper.bbl
 Underfull \hbox (badness 1728) in paragraph at lines 39--43
 []\T1/ptm/m/n/8 Rituraj Kaushik, Kon-stanti-nos Chatzi-lyger-oudis, and Jean-Ba
 ptiste
  []
 
-[9])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 962.
- [10
+[11])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1203.
+ [12
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 962.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1203.
  (./paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 962.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 962.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1203.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1203.
+
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: FD6D169927C56079B2CFDF12142CDAD6;1586.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 962.
+(rerunfilecheck)             Checksum: 0AD3A42A547A07FC6DB7E8386E74410C;1599.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1203.
  ) 
 Here is how much of TeX's memory you used:
- 8587 strings out of 483065
- 132406 string characters out of 5963550
- 408355 words of memory out of 5000000
- 23302 multiletter control sequences out of 15000+600000
+ 8623 strings out of 483065
+ 133074 string characters out of 5963550
+ 408582 words of memory out of 5000000
+ 23321 multiletter control sequences out of 15000+600000
  648053 words of font info for 152 fonts, out of 8000000 for 9000
  81 hyphenation exceptions out of 8191
  41i,14n,49p,544b,589s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -608,10 +621,10 @@ urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/ut
 mb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (10 pages, 329196 bytes).
+Output written on paper.pdf (12 pages, 356068 bytes).
 PDF statistics:
- 490 PDF objects out of 1000 (max. 8388607)
- 410 compressed objects within 5 object streams
- 130 named destinations out of 1000 (max. 500000)
- 200 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 567 PDF objects out of 1000 (max. 8388607)
+ 462 compressed objects within 5 object streams
+ 146 named destinations out of 1000 (max. 500000)
+ 205 words of extra memory for PDF output out of 10000 (max. 10000000)
 
