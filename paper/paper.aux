@@ -34,6 +34,7 @@
 \@writefile{toc}{\contentsline {section}{\numberline {II}Related Works}{2}{section.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Quality-Diversity Optimization}{2}{subsection.2.1}\protected@file@percent }
 \@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces MAP-Elites}}{2}{algorithm.1}\protected@file@percent }
+\newlabel{MAP-Elites}{{1}{2}{Quality-Diversity Optimization}{ALC@unique.16}{}}
 \citation{GP,GP_posterior}
 \citation{GP,Matern}
 \citation{RTE}
@@ -120,11 +121,23 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Example of the convergence of parameter posterior in DPMM. Data are sampled from a infinite mixture of Gaussians, where the variance is fixed at 4, and the mean is given by a Gaussian mixture as the prior. As the cluster grows larger, the posterior of the mean becomes more narrowed and centred at the ground truth (5.5). }}{10}{figure.3}\protected@file@percent }
 \newlabel{posterior_convergence}{{3}{10}{Example of the convergence of parameter posterior in DPMM. Data are sampled from a infinite mixture of Gaussians, where the variance is fixed at 4, and the mean is given by a Gaussian mixture as the prior. As the cluster grows larger, the posterior of the mean becomes more narrowed and centred at the ground truth (5.5)}{figure.3}{}}
 \newlabel{refitted_weights}{{47}{10}{Clustering the Dynamics with Dirichlet Processes}{equation.3.47}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-E}}Online Learning the Dynamics}{10}{subsection.3.5}\protected@file@percent }
-\newlabel{trained_mixture_model}{{48}{10}{Online Learning the Dynamics}{equation.3.48}{}}
-\newlabel{MGP_posterior}{{49}{10}{Online Learning the Dynamics}{equation.3.49}{}}
-\newlabel{MGP_indicator}{{50}{10}{Online Learning the Dynamics}{equation.3.50}{}}
-\newlabel{posterior_convergence_simplification}{{51}{10}{Online Learning the Dynamics}{equation.3.51}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-E}}Learning the Dynamics Online}{10}{subsection.3.5}\protected@file@percent }
+\newlabel{trained_mixture_model}{{48}{10}{Learning the Dynamics Online}{equation.3.48}{}}
+\newlabel{MGP_posterior}{{49}{10}{Learning the Dynamics Online}{equation.3.49}{}}
+\newlabel{MGP_indicator}{{50}{10}{Learning the Dynamics Online}{equation.3.50}{}}
+\newlabel{posterior_convergence_simplification}{{51}{10}{Learning the Dynamics Online}{equation.3.51}{}}
+\citation{PyBullet}
+\citation{cully2015robots}
+\newlabel{simplified_distortion}{{52}{11}{Learning the Dynamics Online}{equation.3.52}{}}
+\newlabel{simplified_indicator}{{53}{11}{Learning the Dynamics Online}{equation.3.53}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Experiment}{11}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Robot Setup}{11}{subsection.4.1}\protected@file@percent }
+\newlabel{PID}{{54}{11}{Robot Setup}{equation.4.54}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The Ant robot in PyBullet simulation. The four motors mounted on the body can rotate from $-40^{\circ }$ to $40^{\circ }$. The knee flexion angle for each leg ranges from $30^{\circ }$ to $100^{\circ }$. }}{11}{figure.4}\protected@file@percent }
+\newlabel{Ant_robot}{{4}{11}{The Ant robot in PyBullet simulation. The four motors mounted on the body can rotate from $-40^{\circ }$ to $40^{\circ }$. The knee flexion angle for each leg ranges from $30^{\circ }$ to $100^{\circ }$}{figure.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces The periodic motor targets corresponding to $\alpha = 0.8$, $\phi =100$ ms and $\tau =0.6$. The squared wave is smoothed by a Gaussian kernel with $\sigma = 100$ ms. }}{11}{figure.5}\protected@file@percent }
+\newlabel{targets}{{5}{11}{The periodic motor targets corresponding to $\alpha = 0.8$, $\phi =100$ ms and $\tau =0.6$. The squared wave is smoothed by a Gaussian kernel with $\sigma = 100$ ms}{figure.5}{}}
+\citation{QDgym}
 \bibstyle{unsrt}
 \bibdata{reference}
 \bibcite{alphaGo}{1}
@@ -146,6 +159,17 @@
 \bibcite{GP_posterior}{17}
 \bibcite{Matern}{18}
 \bibcite{MCTS}{19}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces The robot walking with one leg (left blue-yellow leg) damaged. The knee flexion angle of this leg is fixed at $30^{\circ }$ to reduce contact with the ground. }}{12}{figure.6}\protected@file@percent }
+\newlabel{damaged_robot}{{6}{12}{The robot walking with one leg (left blue-yellow leg) damaged. The knee flexion angle of this leg is fixed at $30^{\circ }$ to reduce contact with the ground}{figure.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Generating the Repertoire with MAP-Elites}{12}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Determine the Basis with SVD}{12}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Collecting Data Collaboratively}{12}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {V}Results and Analysis}{12}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Dirichlet Process Clustering}{12}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Dynamics Learning}{12}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Tunnel Navigation Challenge}{12}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion}{12}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{12}{section*.1}\protected@file@percent }
 \bibcite{APROL}{20}
 \bibcite{DP}{21}
 \bibcite{Gibbs_sampling}{22}
@@ -153,19 +177,6 @@
 \bibcite{variational_method}{24}
 \bibcite{MCMC}{25}
 \bibcite{Bayesian_mixture}{26}
-\newlabel{simplified_distortion}{{52}{11}{Online Learning the Dynamics}{equation.3.52}{}}
-\newlabel{simplified_indicator}{{53}{11}{Online Learning the Dynamics}{equation.3.53}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {IV}Experiment}{11}{section.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Robot Setup}{11}{subsection.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Generating the Repertoire with MAP-Elites}{11}{subsection.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Determine the Basis with SVD}{11}{subsection.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Collecting Data Collaboratively}{11}{subsection.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {V}Results and Analysis}{11}{section.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Dirichlet Process Clustering}{11}{subsection.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Online Learning the Dynamics}{11}{subsection.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Tunnel Navigation Challenge}{11}{subsection.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion}{11}{section.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{References}{11}{section*.1}\protected@file@percent }
 \bibcite{EM}{27}
 \bibcite{infinite_GMM}{28}
 \bibcite{infinite_MGP}{29}
@@ -175,3 +186,6 @@
 \bibcite{circle_fitting}{33}
 \bibcite{L-BFGS-B}{34}
 \bibcite{error_analysis}{35}
+\bibcite{PyBullet}{36}
+\bibcite{cully2015robots}{37}
+\bibcite{QDgym}{38}

@@ -9,7 +9,7 @@
 \BOOKMARK [2][-]{subsection.3.2}{Determine the Input Space}{section.3}% 9
 \BOOKMARK [2][-]{subsection.3.3}{Choosing the Dynamics Representation}{section.3}% 10
 \BOOKMARK [2][-]{subsection.3.4}{Clustering the Dynamics with Dirichlet Processes}{section.3}% 11
-\BOOKMARK [2][-]{subsection.3.5}{Online Learning the Dynamics}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.5}{Learning the Dynamics Online}{section.3}% 12
 \BOOKMARK [1][-]{section.4}{Experiment}{}% 13
 \BOOKMARK [2][-]{subsection.4.1}{Robot Setup}{section.4}% 14
 \BOOKMARK [2][-]{subsection.4.2}{Generating the Repertoire with MAP-Elites}{section.4}% 15
@@ -17,7 +17,7 @@
 \BOOKMARK [2][-]{subsection.4.4}{Collecting Data Collaboratively}{section.4}% 17
 \BOOKMARK [1][-]{section.5}{Results and Analysis}{}% 18
 \BOOKMARK [2][-]{subsection.5.1}{Dirichlet Process Clustering}{section.5}% 19
-\BOOKMARK [2][-]{subsection.5.2}{Online Learning the Dynamics}{section.5}% 20
+\BOOKMARK [2][-]{subsection.5.2}{Dynamics Learning}{section.5}% 20
 \BOOKMARK [2][-]{subsection.5.3}{Tunnel Navigation Challenge}{section.5}% 21
 \BOOKMARK [1][-]{section.6}{Conclusion}{}% 22
 \BOOKMARK [1][-]{section*.1}{References}{}% 23

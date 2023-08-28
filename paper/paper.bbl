@@ -214,4 +214,20 @@ John~Robert Taylor and William Thompson.
   physical measurements}, volume~2.
 \newblock Springer, 1982.
 
+\bibitem{PyBullet}
+Erwin Coumans et~al.
+\newblock Bullet physics simulation.
+\newblock In {\em ACM SIGGRAPH 2015 Courses}, page~7. ACM, 2015.
+
+\bibitem{cully2015robots}
+Antoine Cully, Jeff Clune, Danesh Tarapore, and Jean-Baptiste Mouret.
+\newblock Robots that can adapt like animals.
+\newblock {\em Nature}, 521(7553):503--507, 2015.
+
+\bibitem{QDgym}
+Olle Nilsson and Antoine Cully.
+\newblock Policy gradient assisted map-elites.
+\newblock In {\em Proceedings of the Genetic and Evolutionary Computation
+  Conference}, pages 866--875, 2021.
+
 \end{thebibliography}

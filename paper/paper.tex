@@ -131,6 +131,7 @@ The pseudo code for MAP-Elites QD algorithm is presented below.
 \ENDFOR
 \ENDFOR
 \end{algorithmic}
+\label{MAP-Elites}
 \end{algorithm}
 \noindent
 Evaluating the policies in the simulation is the major source of computationally expense for the MAP-Elites.
@@ -1054,7 +1055,7 @@ Since the rest of the parameters are fixed, the covariance matrix $\bm{\Sigma}_{
 
 
 
-\subsection{Online Learning the Dynamics}
+\subsection{Learning the Dynamics Online}
 After having clustered the historical data, we can use the result to assist adaptation.
 In RTE, we learn the distortion online using GPs, where the parameters (prior mean function, kernel etc.) are determined manually.
 In our method, the dynamics is modelled with an infinite mixture of GPs. 
@@ -1149,10 +1150,7 @@ Since each situation has a prior mean function that can give estimation of the d
 The second level is to learn the residual dynamics, which is the part of the distortion failed to be captured by the prior mean, using the kernels optimized for each situation.
 The final prediction of dynamics given by Eq. (\ref{simplified_distortion}) is a mixture of Gaussians.
 Where each mixture component has mean and variance calculated using Eq. (\ref{GP_posterior}), and the mixture weights are equal to the probabilities of being in each situation.
-
-
-
-
+This learned dynamics can then be used by the robot to correct its motion accordingly.
 
 
 
@@ -1165,10 +1163,104 @@ Where each mixture component has mean and variance calculated using Eq. (\ref{GP
 \section{Experiment}
 
 
+
 \subsection{Robot Setup}
+To evaluate our methodology, experiment is conducted on the Ant robot in PyBullet simulation \cite{PyBullet} (see Fig \ref{Ant_robot}). 
+This robot has 8 degrees of freedom (2 for each leg) corresponding to 8 motors powering its motion.
+Note that the joints connecting the body and each leg can only rotate horizontally, meaning that the four thighs (the part of each leg directly attached to the body) are always on the same plane.
+Hence, the Ant robot cannot lift up its leg to walk like real animals.
+The motors employ PID positional control, where the torque is given by:
+\begin{equation}
+\tau = K_p \theta_e + K_i \int \theta_e(t) dt + K_d \frac{d \theta_e}{dt}
+\label{PID}
+\end{equation}
+where $\theta_e = \theta_t - \theta$ ($\theta_t$ is the positional target).
+In PyBullet, the maximum torque is $\pm 1$. 
+For the motors on the body, $K_p$ is set to be 1.43 and $K_d$ is set to be 0.072.
+For the motors on the knees, $K_p$ is 1.637 and $K_d$ is 0.082.
+For all motors, $K_i$ is set to zero for simplicity. 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.45\textwidth]{intact_robot.pdf}
+\caption{The Ant robot in PyBullet simulation. 
+The four motors mounted on the body can rotate from $-40^{\circ}$ to $40^{\circ}$. The knee flexion angle for each leg ranges from 
+$30^{\circ}$ to $100^{\circ}$.
+}
+\label{Ant_robot}
+\end{figure}
+
+
+Like in RTE, we use a periodic controller for the robot.
+The period is set to 1 second, which corresponds to 100 time-steps in simulation.
+The targets within each period is parametrized in the same way as in \cite{cully2015robots}.
+The target of each motor is a smoothed squared wave (see Fig \ref{targets}) governed by three parameters: amplitude $\alpha$, phase $\phi$ and duty cycle $\tau$.
+All the three parameters range from 0 to 1.
+The duty cycle stands for the proportion of time in one period that the squared wave is in its high state.
+This squared wave is then smoothed by a Gaussian kernel to remove rapid changes.
+In each time-step of the simulation, we give each motor the corresponding positional target, which will then be converted into torques via PID.
+Thus, each controller is parametrized by a vector of 24 dimensions, which is hence defined to be the genotype of this controller.
+%
+%
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.45\textwidth]{targets.pdf}
+\caption{The periodic motor targets corresponding to $\alpha = 0.8$, $\phi=100$ ms and $\tau=0.6$.
+The squared wave is smoothed by a Gaussian kernel with $\sigma = 100$ ms.
+}
+\label{targets}
+\end{figure}
+
+
+In this paper, we consider three sources of distortions: friction, payload and damages to the legs of the robot.
+To collect the distortions as the basis for the prior mean function, we need to model these sources in simulation.
+Different frictions can be easily achieved by changing the simulation settings.
+Leg damages are modelled by giving a fixed positional target to the motor mounted on the knee.
+This fixed target overwrites the command of the controller, so that the damaged leg is always in the upper position (see Fig \ref{damaged_robot}).
+However, for unknown reasons, changing the mass of the robot do not affect the dynamics in simulation. 
+Hence, we take an alternative approach by discounting the torque to model the payload.
+%
+%
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.45\textwidth]{damaged_robot.pdf}
+\caption{The robot walking with one leg (left blue-yellow leg) damaged.
+The knee flexion angle of this leg is fixed at $30^{\circ}$ to reduce contact with the ground.
+}
+\label{damaged_robot}
+\end{figure}
+
+
 
 
 \subsection{Generating the Repertoire with MAP-Elites}
+To implement MAP-Elites, the task space for our robot is defined to be its 2D displacement, spanning from -4.8 to 4.8 on both the $x$ and $y$ axes. 
+This continuous space is then discretized into a $32 \times 32$ grid, yielding a resolution of 0.3 unit per cell.
+To evaluate each genotype, we first decode it into the periodic targets and then execute them for 4 seconds.
+The fitness is defined to be a reward of the lifespan (number of time-steps before the body of the robot hits the ground) penalized by the electrical cost \cite{QDgym}.
+In each iteration of MAP-Elites, we generate 128 off-springs from 8 selected parents.
+
+
+
+
+
+
+To design a crossover operation that balances exploitation and exploration, 
+
+
+The crossover operation should balance the exploitation and exploration by ensuring some inheritance of the parents to preserve good genes as well as some random variations for promoting diversity.
+
+computation 10 cpu cores.
+
+For each controller, apart from the 2D displacement, we also need to record the three parameters for arc-based dynamics representation calculated using Eq. (\ref{all_three_parameters}).
+
+
+
+
+
+
+
+
+
 
 \subsection{Determine the Basis with SVD}
 
@@ -1183,7 +1275,7 @@ Where each mixture component has mean and variance calculated using Eq. (\ref{GP
 \subsection{Dirichlet Process Clustering}
 
 
-\subsection{Online Learning the Dynamics}
+\subsection{Dynamics Learning}
 
 \subsection{Tunnel Navigation Challenge}
 

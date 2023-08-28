@@ -9,45 +9,45 @@ Warning--can't use both volume and number fields in MCTS
 Warning--there's a number but no volume in Gibbs
 Warning--empty journal in variational_method
 Warning--there's a number but no volume in Kasa_method
-You've used 35 entries,
+You've used 38 entries,
             1791 wiz_defined-function locations,
-            683 strings with 10275 characters,
-and the built_in function-call counts, 8617 in all, are:
-= -- 771
-> -- 403
-< -- 12
-+ -- 148
-- -- 113
-* -- 591
-:= -- 1343
-add.period$ -- 107
-call.type$ -- 35
-change.case$ -- 31
+            703 strings with 10666 characters,
+and the built_in function-call counts, 9473 in all, are:
+= -- 852
+> -- 433
+< -- 14
++ -- 159
+- -- 121
+* -- 641
+:= -- 1463
+add.period$ -- 117
+call.type$ -- 38
+change.case$ -- 34
 chr.to.int$ -- 0
-cite$ -- 41
-duplicate$ -- 385
-empty$ -- 816
-format.name$ -- 113
-if$ -- 1921
+cite$ -- 44
+duplicate$ -- 430
+empty$ -- 905
+format.name$ -- 121
+if$ -- 2127
 int.to.chr$ -- 0
-int.to.str$ -- 35
-missing$ -- 38
-newline$ -- 177
-num.names$ -- 35
-pop$ -- 103
+int.to.str$ -- 38
+missing$ -- 41
+newline$ -- 192
+num.names$ -- 38
+pop$ -- 117
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 196
+skip$ -- 221
 stack$ -- 0
-substring$ -- 571
-swap$ -- 107
-text.length$ -- 12
+substring$ -- 630
+swap$ -- 124
+text.length$ -- 14
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 6
-while$ -- 87
-width$ -- 37
-write$ -- 382
+while$ -- 96
+width$ -- 40
+write$ -- 416
 (There were 6 warnings)
