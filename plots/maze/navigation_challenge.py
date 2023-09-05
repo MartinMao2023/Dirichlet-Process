@@ -24,7 +24,7 @@ case_dict = {0: dmg_0_case,
              3: dmg_3_case,
              4: dmg_4_case,}
 
-case_index = 3
+case_index = 2
 
 case = case_dict[case_index]
 
@@ -34,74 +34,80 @@ starting_x = np.random.uniform(0, 1, 100)
 starting_y = np.random.uniform(-1, 1, 100)
 starting_theta = np.random.normal(0, 0.5236, 100)
 
-# Oracle
-oracle_data = np.zeros((100, budget + 1, 2))
+# # Oracle
+# oracle_data = np.zeros((100, budget + 1, 2))
 
-for r in range(100):
-    state_x = starting_x[r]
-    state_y = starting_y[r]
-    state_theta = starting_theta[r]
-    outcomes = np.zeros((len(baselines), 2), dtype=np.float32)
+# for r in range(100):
+#     state_x = starting_x[r]
+#     state_y = starting_y[r]
+#     state_theta = starting_theta[r]
+#     outcomes = np.zeros((len(baselines), 2), dtype=np.float32)
 
-    positions = np.zeros((budget + 1, 2), dtype=np.float32)
-    positions[0] = state_x, state_y
+#     positions = np.zeros((budget + 1, 2), dtype=np.float32)
+#     positions[0] = state_x, state_y
 
-    i = 0
-    invalid_moves = []
-    while i < budget:   
-        R_matrix = np.array([
-            [math.cos(state_theta), -math.sin(state_theta)],
-            [math.sin(state_theta), math.cos(state_theta)]
-        ], dtype=np.float32)
+#     i = 0
+#     invalid_moves = []
+#     while i < budget:   
+#         R_matrix = np.array([
+#             [math.cos(state_theta), -math.sin(state_theta)],
+#             [math.sin(state_theta), math.cos(state_theta)]
+#         ], dtype=np.float32)
 
-        predicted_x, predicted_y = case[:, :2].T # damage
-        predicted_x = predicted_x.reshape(-1, 1)
-        predicted_y = predicted_y.reshape(-1, 1)
+#         predicted_x, predicted_y = case[:, :2].T # damage
+#         predicted_x = predicted_x.reshape(-1, 1)
+#         predicted_y = predicted_y.reshape(-1, 1)
 
-        outcomes[:, 0] = predicted_x[:, 0]
-        outcomes[:, 1] = predicted_y[:, 0]
-        outcomes = outcomes @ R_matrix.T
-        outcomes[:, 0] += state_x
-        outcomes[:, 1] += state_y
+#         outcomes[:, 0] = predicted_x[:, 0]
+#         outcomes[:, 1] = predicted_y[:, 0]
+#         outcomes = outcomes @ R_matrix.T
+#         outcomes[:, 0] += state_x
+#         outcomes[:, 1] += state_y
 
-        rewards = reward((state_x, state_y), outcomes)
+#         rewards = reward((state_x, state_y), outcomes)
 
-        next_action_index = np.argmax(rewards)
+#         next_action_index = np.argmax(rewards)
 
-        true_x , true_y, true_v, true_w, true_phi = case[next_action_index]
-        new_x = math.cos(state_theta)*true_x - math.sin(state_theta)*true_y + state_x
-        new_y = math.sin(state_theta)*true_x + math.cos(state_theta)*true_y + state_y
+#         true_x , true_y, true_v, true_w, true_phi = case[next_action_index]
+#         new_x = math.cos(state_theta)*true_x - math.sin(state_theta)*true_y + state_x
+#         new_y = math.sin(state_theta)*true_x + math.cos(state_theta)*true_y + state_y
 
 
-        if no_collision((state_x, state_y), (new_x, new_y)):
-            state_x = new_x
-            state_y = new_y
-            state_theta += 4*true_w
-            positions[i + 1] = state_x, state_y
-        else:
-            positions[i + 1: i+3] = state_x, state_y
-            i += 1
+#         if no_collision((state_x, state_y), (new_x, new_y)):
+#             state_x = new_x
+#             state_y = new_y
+#             state_theta += 4*true_w
+#             positions[i + 1] = state_x, state_y
+#         else:
+#             positions[i + 1: i+3] = state_x, state_y
+#             i += 1
         
 
-        if state_y > 12.91 and state_x < -2:
-            positions[i + 1:] = state_x, state_y
-            break
-        i += 1
+#         if state_y > 12.91 and state_x < -2:
+#             positions[i + 1:] = state_x, state_y
+#             break
+#         i += 1
     
-    oracle_data[r] = positions
+#     oracle_data[r] = positions
 
 
-oracle_projections = [projection(i[:, 0], i[:, 1]) for i in oracle_data]
-oracle_projections = np.vstack(oracle_projections)
+# oracle_projections = [projection(i[:, 0], i[:, 1]) for i in oracle_data]
+# oracle_projections = np.vstack(oracle_projections)
 
-np.save(f"oracle_projections_{case_index}.npy", oracle_projections)
+# np.save(f"oracle_projections_{case_index}.npy", oracle_projections)
 
 
 
 # RTE
 rte_data = np.zeros((100, budget + 1, 2))
 rte_hit_count = np.zeros(100)
+
+step_taken = np.zeros(100)
+distance_travelled = np.zeros(100)
+prediction_error = np.zeros(100)
+
 for r in range(100):
+    errors = []
     adaptor_rte = Adaptor_rte(v=0.5)
     state_x = starting_x[r]
     state_y = starting_y[r]
@@ -146,8 +152,16 @@ for r in range(100):
         step_data[0, 2] = true_x - baselines[next_action_index, 0]
         step_data[1, 2] = true_y - baselines[next_action_index, 1]
         adaptor_rte.read_data(step_data)
+        
 
+        errors.append(math.sqrt((predicted_x[next_action_index, 0] - true_x)**2 
+                                + (predicted_y[next_action_index, 0] - true_y)**2))
         if no_collision((state_x, state_y), (new_x, new_y)):
+            if new_y > 12.91 and new_x < 0 and step_taken[r] == 0:
+                step_taken[r] = i + 1
+            if not (state_y > 12.91 and state_x < 0):
+                distance_travelled[r] += math.sqrt((new_x - state_x)**2 + (new_y - state_y)**2)
+
             state_x = new_x
             state_y = new_y
             state_theta += 4*true_w
@@ -158,6 +172,10 @@ for r in range(100):
             positions[i + 1: i+3] = state_x, state_y
             rte_hit_count[r] += 1
             i += 1
+
+
+        
+
         
         if state_y > 12.91 and state_x < -2:
             positions[i + 1:] = state_x, state_y
@@ -165,6 +183,7 @@ for r in range(100):
         i += 1
     
     rte_data[r] = positions
+    prediction_error[r] = math.sqrt(np.mean(np.array(errors)**2))
 
 
 rte_projections = [projection(i[:, 0], i[:, 1]) for i in rte_data]
@@ -175,7 +194,16 @@ rte_projections = np.vstack(rte_projections)
 np.save(f"rte_projections_{case_index}.npy", rte_projections)
 np.save(f"rte_hits_{case_index}.npy", rte_hit_count)
 
-
+print("\n")
+print("case:", case_index)
+print("="*50)
+print("RTE data:")
+print("step:", np.mean(step_taken), round(np.std(step_taken), 6))
+print("hits:", np.mean(rte_hit_count), round(np.std(rte_hit_count), 6))
+print("distance:", round(np.mean(distance_travelled), 6), round(np.std(distance_travelled), 6))
+print("error:", round(np.mean(prediction_error), 6), round(np.std(prediction_error), 6))
+print("="*50)
+print("\n")
 
 
 
@@ -183,7 +211,12 @@ np.save(f"rte_hits_{case_index}.npy", rte_hit_count)
 xy_data = np.zeros((100, budget + 1, 2))
 xy_hit_count = np.zeros(100)
 
+step_taken = np.zeros(100)
+distance_travelled = np.zeros(100)
+prediction_error = np.zeros(100)
+
 for r in range(100):
+    errors = []
     adaptor_xy = Combined_adaptor_xy()
     adaptor_xy.load("combined_xy")
     state_x = starting_x[r]
@@ -230,7 +263,15 @@ for r in range(100):
         result = case[next_action_index].reshape(-1, 1)
         adaptor_xy.read_data(coor, baseline, result)
 
+
+        errors.append(math.sqrt((predicted_x[next_action_index, 0] - true_x)**2 
+                                + (predicted_y[next_action_index, 0] - true_y)**2))
         if no_collision((state_x, state_y), (new_x, new_y)):
+            if new_y > 12.91 and new_x < 0 and step_taken[r] == 0:
+                step_taken[r] = i + 1
+            if not (state_y > 12.91 and state_x < 0):
+                distance_travelled[r] += math.sqrt((new_x - state_x)**2 + (new_y - state_y)**2)
+
             state_x = new_x
             state_y = new_y
             state_theta += 4*true_w
@@ -250,6 +291,7 @@ for r in range(100):
         i += 1
     
     xy_data[r] = positions
+    prediction_error[r] = math.sqrt(np.mean(np.array(errors)**2))
 
 
 xy_projections = [projection(i[:, 0], i[:, 1]) for i in xy_data]
@@ -257,6 +299,14 @@ xy_projections = np.vstack(xy_projections)
 np.save(f"xy_projections_{case_index}.npy", xy_projections)
 np.save(f"xy_hits_{case_index}.npy", xy_hit_count)
 
+print("="*50)
+print("XY data:")
+print("step:", np.mean(step_taken), round(np.std(step_taken), 6))
+print("hits:", np.mean(xy_hit_count), round(np.std(xy_hit_count), 6))
+print("distance:", round(np.mean(distance_travelled), 6), round(np.std(distance_travelled), 6))
+print("error:", round(np.mean(prediction_error), 6), round(np.std(prediction_error), 6))
+print("="*50)
+print("\n")
 
 
 
@@ -265,7 +315,12 @@ np.save(f"xy_hits_{case_index}.npy", xy_hit_count)
 arc_data = np.zeros((100, budget + 1, 2))
 arc_hit_count = np.zeros(100)
 
+step_taken = np.zeros(100)
+distance_travelled = np.zeros(100)
+prediction_error = np.zeros(100)
+
 for r in range(100):
+    error = []
     adaptor_arc = Combined_adaptor_arc()
     adaptor_arc.load("combined_arc")
     state_x = starting_x[r]
@@ -313,7 +368,13 @@ for r in range(100):
         result = case[next_action_index].reshape(-1, 1)
         adaptor_arc.read_data(coor, baseline, result)
 
+        errors.append(math.sqrt((predicted_x[next_action_index, 0] - true_x)**2 
+                                + (predicted_y[next_action_index, 0] - true_y)**2))
         if no_collision((state_x, state_y), (new_x, new_y)):
+            if new_y > 12.91 and new_x < 0 and step_taken[r] == 0:
+                step_taken[r] = i + 1
+            if not (state_y > 12.91 and state_x < 0):
+                distance_travelled[r] += math.sqrt((new_x - state_x)**2 + (new_y - state_y)**2)
             state_x = new_x
             state_y = new_y
             state_theta += 4*true_w
@@ -333,6 +394,7 @@ for r in range(100):
         i += 1
     
     arc_data[r] = positions
+    prediction_error[r] = math.sqrt(np.mean(np.array(errors)**2))
 
 
 arc_projections = [projection(i[:, 0], i[:, 1]) for i in arc_data]
@@ -341,4 +403,12 @@ arc_projections = np.vstack(arc_projections)
 np.save(f"arc_projections_{case_index}.npy", arc_projections)
 np.save(f"arc_hits_{case_index}.npy", arc_hit_count)
 
+print("="*50)
+print("Arc data:")
+print("step:", np.mean(step_taken), round(np.std(step_taken), 6))
+print("hits:", np.mean(arc_hit_count), round(np.std(arc_hit_count), 6))
+print("distance:", round(np.mean(distance_travelled), 6), round(np.std(distance_travelled), 6))
+print("error:", round(np.mean(prediction_error), 6), round(np.std(prediction_error), 6))
+print("="*50)
+print("\n")
 

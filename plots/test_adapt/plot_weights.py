@@ -42,31 +42,21 @@ for i, (mean, std) in enumerate(zip(data_mean.T, data_std.T)):
 legend = plt.legend(fontsize=14)
 legend.get_frame().set_edgecolor("none")
 plt.xlabel("step taken", fontsize=24)
-plt.ylabel("posterior weight", fontsize=24)
-plt.tick_params(labelsize=16)
+plt.tick_params(labelsize=18)
 # plt.xlim((-3, 23.5))
 plt.ylim((0, 1))
-plt.show()
-
-
-# xy_data = np.load(f"new_xy_case{case_index}.npy")
-# xy_means = np.mean(xy_data, axis=0)
-# xy_stds = np.std(xy_data, axis=0)
-# arc_data = np.load(f"new_arc_case{case_index}.npy")
-# arc_means = np.mean(arc_data, axis=0)
-# arc_stds = np.std(arc_data, axis=0)
-
-# ax.fill_between(np.arange(26), rte_means-rte_stds, rte_means+rte_stds, color="#ff7f0e", alpha=0.2)
-# ax.plot(np.arange(26), rte_means,color="#ff7f0e", label="RTE")
-# ax.fill_between(np.arange(26), xy_means-xy_stds, xy_means+xy_stds, color='#2ca02c', alpha=0.2)
-# ax.plot(np.arange(26), xy_means, color='#2ca02c', label="Collab (XY-bases)")
-# ax.fill_between(np.arange(26), arc_means-arc_stds, arc_means+arc_stds, color='#9467bd', alpha=0.2)
-# ax.plot(np.arange(26), arc_means, color='#9467bd', label="Collab (arc-bases)")
-# plt.xlabel("step taken", fontsize=14)
-# plt.ylabel("MSE loss", fontsize=14)
-# plt.legend(fontsize=14)
-# # plt.savefig(f"new_case{case_index}.pdf", dpi=500)
+if case_index == 4:
+    plt.title("new env", fontsize=24)
+else:
+    plt.ylabel("posterior weight", fontsize=24)
+    plt.title(f"env {case_index+1}", fontsize=24)
+plt.tight_layout()
+plt.savefig(f"weight_{case_index}.pdf", dpi=500)
 # plt.show()
+
+
+
+
 
 
 

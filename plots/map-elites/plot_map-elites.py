@@ -41,8 +41,8 @@ for index, (x, y) in enumerate(filtered_baseline[:, :2]):
 # ax.set_xticklabels([str(round(i, 1)) for i in xlabels], fontsize=14)
 # ax.set_yticklabels([str(round(i, 1)) for i in ylabels], fontsize=14)
 # plt.colorbar(grid_image)
-# # plt.savefig("original_map_elites.pdf", dpi=500)
-# plt.show()
+# plt.savefig("original_map_elites.pdf", dpi=500)
+# # plt.show()
 
 
 
@@ -60,15 +60,12 @@ for index, (x, y) in enumerate(filtered_baseline[:, :2]):
 # ax.set_xticklabels([str(round(i, 1)) for i in xlabels], fontsize=14)
 # ax.set_yticklabels([str(round(i, 1)) for i in ylabels], fontsize=14)
 # plt.colorbar(grid_image)
-# # plt.savefig("filtered_map_elites.pdf", dpi=500)
-# plt.show()
+# plt.savefig("filtered_map_elites.pdf", dpi=500)
+# # plt.show()
 
 
 
-# print(filtered_baseline.shape)
 
-# c = np.abs(a - b)
-# print(np.mean(np.mean(c)), np.max(c))
 
 
 

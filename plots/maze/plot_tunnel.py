@@ -72,8 +72,9 @@ legend.get_frame().set_edgecolor("none")
 ax.axis("off")
 plt.xlim((-5, 25))
 plt.ylim((-5, 16))
-plt.show()
-# plt.savefig("tunnel_floorplan.pdf", dpi=500)
+plt.tight_layout()
+# plt.show()
+plt.savefig("tunnel_floorplan.pdf", dpi=500)
 
 
 

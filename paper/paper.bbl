@@ -230,4 +230,14 @@ Olle Nilsson and Antoine Cully.
 \newblock In {\em Proceedings of the Genetic and Evolutionary Computation
   Conference}, pages 866--875, 2021.
 
+\bibitem{elbow}
+Robert~L Thorndike.
+\newblock Who belongs in the family?
+\newblock {\em Psychometrika}, 18(4):267--276, 1953.
+
+\bibitem{DWA}
+Dieter Fox, Wolfram Burgard, and Sebastian Thrun.
+\newblock The dynamic window approach to collision avoidance.
+\newblock {\em IEEE Robotics \& Automation Magazine}, 4(1):23--33, 1997.
+
 \end{thebibliography}

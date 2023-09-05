@@ -1,0 +1,43 @@
+
+\section{Introduction}
+Locomotion controls of legged robots are typically too complex to be designed manually.
+In recent years, deep Reinforcement-Learning (deep RL) has made huge success in game playing
+\cite{alphaGo, alphaStar} and is regarded promising for application in robotics. However, training such well performing agents requires enormous amounts of interactions with the environment, meaning that this can only 
+be done in simulation where we can model the interaction and collect the training data much faster than in real-time. This raises a problem for application in robotics since there is always a gap between simulation and reality, and the policy trained in simulation could suffer from this sim-to-real transfer. Another problem is that any unforeseen changes to the environment dynamics could lead to severely degraded performance. These deep RL trained agents require extra fine-tuning or even retaining to retain their capabilities.
+For example, the team of OpenAI Five \cite{openAI5} had to conduct three additional amendments in the architecture followed by extra trainings to incorporate small version updates in Dota 2 during the development of the agent.
+For game-playing agents, these drawbacks are tolerable as there is no sim-to-real problem, and the environment is overall stationary. For robotics however, sim-to-real must be considered, and the environment dynamics is typically non-stationary as the robot can be travelling between different terrain, carrying different payloads or suffering from damages in its hardware.
+
+
+It would be better if we may learn the true dynamics from the interactions with the current dynamics and
+correct our policy accordingly. This is a model-based reinforcement learning (MBRL) solution that allows robots to learn policies with lesser interactions by learning a dynamics model and use it optimize the policy \cite{MBRL, black_box_search, policy_search}. 
+However, the amount of data required to learn a model typically scales exponentially with the dimensionality of the input space \cite{curse_of_dim}, hence it is not suitable for online adaptation. 
+The promising approach to address this is to use a repertoire-based method, where we learn a repertoire of elementary policies (e.g., one policy for turning left, one for moving forward, etc.) using quality diversity optimisation \cite{QD} to fully cover the task space (e.g., the 2D displacement we want the robot to make). 
+The repertoire-based method is a hierarchical control method that keeps a variety of elementary policies and treats each policy as an action. 
+We then give each elementary policy a behaviour descriptor (BD) to quantify the way it acts.
+This enables us to skip the low-level states and actions (i.e., joint encoders and torques for all motors) and to work with the high-level behaviour space that has much smaller dimensionality.
+During the adaptation, we learn the distortion (called transformation model) in the behaviour space from real-world interactions. Thanks to the reduced dimensionality, the transformation model can be learned in real-time.
+Instead of optimising the policy with this learned model, we use a repertoire-based control that first predicts the outcomes for each elementary policy in the repertoire and then simply chooses the one with the predicted outcome that is most aligned with the current goal. 
+This is made available for keeping a repertoire of policies rather than a single policy, so that the robot can adapt to the distortion by finding the corresponding policies that compensate the distortion (for example the robot aims to go forward and distortion is left, then a policy originally aiming right-front can be used for going forward instead).
+
+
+The repertoire-based method has achieved very impressing results in task-solving \cite{EvoRBC} and online damage recovery \cite{RTE}. 
+But this method heavily relies on having a good model that is both data efficient and suitable for modelling the distortion. 
+The most commonly used model is Gaussian Process (GP) \cite{GP}. The prior mean function and the kernel are the most important factors of GP. 
+If no prior knowledge is given about the dynamics, these  have to be selected manually according to experience.
+If the distortion is very large (like broken legs) or complex, the GPs can be very inefficient or even misleading.
+If we have data of real-world interactions across several different environments, we can build a GP for each of the situations and then teach the robot to identify the one that mostly explains its current situation. However, such real-world data are expensive to collect and could lead to covariate shift (the collected data distribution is different from that during deployment).
+A promising solution that is to leverage the historical data of real-world interactions collected during deployment. 
+After performing each task, the interaction data can be uploaded to an archive system where they will be analysed. 
+Thus, the data doesn't have to be collected on purpose, and the acquired data distribution is completely unbiased. 
+This also allows the robots to learn to adapt in a collaborative manner.
+If we have multiple robots performing different tasks in different environments, we can quickly get an overview of the  common types of dynamics and build the adaptation strategy accordingly. 
+If a robot encounters a new environment, with the interaction data uploaded, all the robots will be able to quickly adapt to this environment.
+Finally, considering the scalability of such system, we can group the data into clusters based on their dynamics and assign a GP (with the corresponding mean and kernel) to each cluster. This prevents the adaptation strategy from becoming computationally expensive after we have collected data from thousands of tasks.
+
+There are many challenges needs to be addressed to enable this collaborative learning. First, traditional clustering algorithms like k-nearest neighbours \cite{knn} and k-means \cite{k-means} need to specify the number of clusters. While in our case, this number is not even fixed as we might observe more clusters as we collect more data.
+Second, we know that each task corresponds to a single environment, and hence we are essentially clustering the tasks instead of clustering the data points.
+However, since some tasks are tougher than others, different tasks generate different amount of data. 
+As a result, we will be clustering data of inconsistent sizes.
+Third, since there is a large repertoire of policies, only a small subset of them will be executed while performing each task. Hence, it is very likely that the data collected from two tasks have no overlapping policies, making it hard to determine whether they have similar dynamics and whether they should be grouped together.
+Moreover, after we have found the clusters, the data in each cluster can never cover the entire repertoire. Hence it is difficult to determine the prior mean for the policies that are not present in this cluster.
+This paper aims to solve all the above problems by taking an non-parametric clustering method and using a uniquely designed prior mean function.

@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-case_index = 0
+case_index = 3
 
 
 fig, ax = plt.subplots()
@@ -18,17 +18,23 @@ arc_data = np.load(f"arc_case{case_index}.npy")
 arc_means = np.mean(arc_data, axis=0)
 arc_stds = np.std(arc_data, axis=0)
 
-ax.fill_between(np.arange(26), rte_means-rte_stds, rte_means+rte_stds, alpha=0.2)
-ax.plot(np.arange(26), rte_means, label="RTE")
+ax.fill_between(np.arange(26), rte_means-rte_stds, rte_means+rte_stds, alpha=0.2, color="#ff7f0e")
+ax.plot(np.arange(26), rte_means, label="RTE", color="#ff7f0e")
 ax.fill_between(np.arange(26), xy_means-xy_stds, xy_means+xy_stds, color='#2ca02c', alpha=0.2)
-ax.plot(np.arange(26), xy_means, color='#2ca02c', label="Collab (XY-bases)")
+ax.plot(np.arange(26), xy_means, color='#2ca02c', label="DPMM (xy-based)")
 ax.fill_between(np.arange(26), arc_means-arc_stds, arc_means+arc_stds, color='#9467bd', alpha=0.2)
-ax.plot(np.arange(26), arc_means, color='#9467bd', label="Collab (arc-bases)")
+ax.plot(np.arange(26), arc_means, color='#9467bd', label="DPMM (arc-based)")
+if case_index == 4:
+    plt.title(f"new env", fontsize=16)
+else:
+    plt.title(f"env {case_index+1}", fontsize=16)
 plt.xlabel("step taken", fontsize=14)
-plt.ylabel("MSE loss", fontsize=14)
+if case_index % 2 == 0:
+    plt.ylabel("MSE error", fontsize=14)
 plt.legend(fontsize=14)
-plt.show()
-# plt.savefig(f"regular_case{case_index}.pdf", dpi=500)
+# plt.show()
+plt.tight_layout()
+plt.savefig(f"regular_case{case_index}.pdf", dpi=500)
 
 
 
@@ -44,14 +50,19 @@ plt.show()
 # ax.fill_between(np.arange(26), rte_means-rte_stds, rte_means+rte_stds, color="#ff7f0e", alpha=0.2)
 # ax.plot(np.arange(26), rte_means,color="#ff7f0e", label="RTE")
 # ax.fill_between(np.arange(26), xy_means-xy_stds, xy_means+xy_stds, color='#2ca02c', alpha=0.2)
-# ax.plot(np.arange(26), xy_means, color='#2ca02c', label="Collab (XY-bases)")
+# ax.plot(np.arange(26), xy_means, color='#2ca02c', label="DPMM (xy-based)")
 # ax.fill_between(np.arange(26), arc_means-arc_stds, arc_means+arc_stds, color='#9467bd', alpha=0.2)
-# ax.plot(np.arange(26), arc_means, color='#9467bd', label="Collab (arc-bases)")
+# ax.plot(np.arange(26), arc_means, color='#9467bd', label="DPMM (arc-based)")
+# if case_index == 4:
+#     plt.title(f"new env", fontsize=16)
+# else:
+#     plt.title(f"env {case_index+1}", fontsize=16)
 # plt.xlabel("step taken", fontsize=14)
-# plt.ylabel("MSE loss", fontsize=14)
+# plt.ylabel("MSE error", fontsize=14)
 # plt.legend(fontsize=14)
-# # plt.savefig(f"new_case{case_index}.pdf", dpi=500)
-# plt.show()
+# plt.tight_layout()
+# plt.savefig(f"new_case{case_index}.pdf", dpi=500)
+# # plt.show()
 
 
 

@@ -130,7 +130,7 @@
 \citation{cully2015robots}
 \newlabel{simplified_distortion}{{52}{11}{Learning the Dynamics Online}{equation.3.52}{}}
 \newlabel{simplified_indicator}{{53}{11}{Learning the Dynamics Online}{equation.3.53}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {IV}Experiment}{11}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Experiment Design}{11}{section.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Robot Setup}{11}{subsection.4.1}\protected@file@percent }
 \newlabel{PID}{{54}{11}{Robot Setup}{equation.4.54}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The Ant robot in PyBullet simulation. The four motors mounted on the body can rotate from $-40^{\circ }$ to $40^{\circ }$. The knee flexion angle for each leg ranges from $30^{\circ }$ to $100^{\circ }$. }}{11}{figure.4}\protected@file@percent }
@@ -138,6 +138,85 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces The periodic motor targets corresponding to $\alpha = 0.8$, $\phi =100$ ms and $\tau =0.6$. The squared wave is smoothed by a Gaussian kernel with $\sigma = 100$ ms. }}{11}{figure.5}\protected@file@percent }
 \newlabel{targets}{{5}{11}{The periodic motor targets corresponding to $\alpha = 0.8$, $\phi =100$ ms and $\tau =0.6$. The squared wave is smoothed by a Gaussian kernel with $\sigma = 100$ ms}{figure.5}{}}
 \citation{QDgym}
+\citation{cully2015robots}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces The robot walking with one leg (left blue-yellow leg) damaged. The knee flexion angle of this leg is fixed at $30^{\circ }$ to reduce contact with the ground. }}{12}{figure.6}\protected@file@percent }
+\newlabel{damaged_robot}{{6}{12}{The robot walking with one leg (left blue-yellow leg) damaged. The knee flexion angle of this leg is fixed at $30^{\circ }$ to reduce contact with the ground}{figure.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Generating the Repertoire with MAP-Elites}{12}{subsection.4.2}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Crossover}}{12}{algorithm.2}\protected@file@percent }
+\newlabel{Crossover}{{2}{12}{Generating the Repertoire with MAP-Elites}{ALC@unique.39}{}}
+\citation{elbow}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces The resultant repertoire after 4000 MAP-Elites iterations. The coordinates correspond to the 2D displacement brought by each policy, and the color indicates the fitness score. Policies leading to smaller displacements have bigger fitnesses as they require lesser electric cost. }}{13}{figure.7}\protected@file@percent }
+\newlabel{original_repertoire}{{7}{13}{The resultant repertoire after 4000 MAP-Elites iterations. The coordinates correspond to the 2D displacement brought by each policy, and the color indicates the fitness score. Policies leading to smaller displacements have bigger fitnesses as they require lesser electric cost}{figure.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Determine the Coordinates of Policies}{13}{subsection.4.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces The trajectories of 6 elementary policies in default simulation settings. The dashed lines denote the predicted trajectories in arc-based representation with the parameters calculated using Eq. (\ref  {all_three_parameters}). The fact that the predicted curves stick closely to the actual trajectories indicates such representation being successful. }}{13}{figure.8}\protected@file@percent }
+\newlabel{baseline_trajectories}{{8}{13}{The trajectories of 6 elementary policies in default simulation settings. The dashed lines denote the predicted trajectories in arc-based representation with the parameters calculated using Eq. (\ref {all_three_parameters}). The fact that the predicted curves stick closely to the actual trajectories indicates such representation being successful}{figure.8}{}}
+\newlabel{SVD_for_arc}{{55}{13}{Determine the Coordinates of Policies}{equation.4.55}{}}
+\citation{DWA}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces The mean squared distance error against the number of basis. The elbows for the two curves are both at 5. }}{14}{figure.9}\protected@file@percent }
+\newlabel{original_elbow}{{9}{14}{The mean squared distance error against the number of basis. The elbows for the two curves are both at 5}{figure.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces The mean squared distance error against the number of basis after filtering out the policies with large errors. }}{14}{figure.10}\protected@file@percent }
+\newlabel{filtered_elbow}{{10}{14}{The mean squared distance error against the number of basis after filtering out the policies with large errors}{figure.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Clustering the Collaboratively Collected Data}{14}{subsection.4.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces The remaining repertoire after filtering. }}{14}{figure.11}\protected@file@percent }
+\newlabel{filtered_repertoire}{{11}{14}{The remaining repertoire after filtering}{figure.11}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Collaboratively Collected Data}}{14}{table.1}\protected@file@percent }
+\newlabel{data}{{I}{14}{Collaboratively Collected Data}{table.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}Model-Based Adaptation in a Maze}{14}{subsection.4.5}\protected@file@percent }
+\citation{RTE}
+\newlabel{objective_function}{{56}{15}{Model-Based Adaptation in a Maze}{equation.4.56}{}}
+\newlabel{predicted_subsequent_state}{{57}{15}{Model-Based Adaptation in a Maze}{equation.4.57}{}}
+\newlabel{predicted_mean}{{58}{15}{Model-Based Adaptation in a Maze}{equation.4.58}{}}
+\newlabel{penalty}{{59}{15}{Model-Based Adaptation in a Maze}{equation.4.59}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces The floor-plan of the maze. The starting area is a rectangle with width equals to 1 and height equals to 2. To allow some exploration at start, the width of the tunnel is 5 before the first turning and then reduces to 2.5 for the rest of the sections. }}{15}{figure.12}\protected@file@percent }
+\newlabel{maze}{{12}{15}{The floor-plan of the maze. The starting area is a rectangle with width equals to 1 and height equals to 2. To allow some exploration at start, the width of the tunnel is 5 before the first turning and then reduces to 2.5 for the rest of the sections}{figure.12}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Results and Analysis}{15}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Dirichlet Process Clustering}{15}{subsection.5.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Cluster assignment of the data in Table \ref  {data} after applying our DP clustering method. (a) is the result using displacement-based representation, and (b) is the one for arc-based representation.}}{15}{figure.13}\protected@file@percent }
+\newlabel{clustering_results}{{13}{15}{Cluster assignment of the data in Table \ref {data} after applying our DP clustering method. (a) is the result using displacement-based representation, and (b) is the one for arc-based representation}{figure.13}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{15}{subfigure.13.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{15}{subfigure.13.2}\protected@file@percent }
+\newlabel{case_0}{{14a}{16}{Subfigure 14a}{subfigure.14.1}{}}
+\newlabel{sub@case_0}{{(a)}{a}{Subfigure 14a\relax }{subfigure.14.1}{}}
+\newlabel{case_1}{{14b}{16}{Subfigure 14b}{subfigure.14.2}{}}
+\newlabel{sub@case_1}{{(b)}{b}{Subfigure 14b\relax }{subfigure.14.2}{}}
+\newlabel{case_2}{{14c}{16}{Subfigure 14c}{subfigure.14.3}{}}
+\newlabel{sub@case_2}{{(c)}{c}{Subfigure 14c\relax }{subfigure.14.3}{}}
+\newlabel{case_3}{{14d}{16}{Subfigure 14d}{subfigure.14.4}{}}
+\newlabel{sub@case_3}{{(d)}{d}{Subfigure 14d\relax }{subfigure.14.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces The prediction error versus the step taken in each environment. The error is defined to be the mean-squared distance between the predicted final position and the actual final position. }}{16}{figure.14}\protected@file@percent }
+\newlabel{dynamics_learning}{{14}{16}{The prediction error versus the step taken in each environment. The error is defined to be the mean-squared distance between the predicted final position and the actual final position}{figure.14}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{16}{subfigure.14.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{16}{subfigure.14.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {}}}{16}{subfigure.14.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {}}}{16}{subfigure.14.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Dynamics Learning}{16}{subsection.5.2}\protected@file@percent }
+\newlabel{weight_2}{{15a}{17}{Subfigure 15a}{subfigure.15.1}{}}
+\newlabel{sub@weight_2}{{(a)}{a}{Subfigure 15a\relax }{subfigure.15.1}{}}
+\newlabel{weight_4}{{15b}{17}{Subfigure 15b}{subfigure.15.2}{}}
+\newlabel{sub@weight_4}{{(b)}{b}{Subfigure 15b\relax }{subfigure.15.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces The change of the posterior weight of each cluster versus the number of steps taken. These data correspond to the model using displacement-based dynamics representation. }}{17}{figure.15}\protected@file@percent }
+\newlabel{weights}{{15}{17}{The change of the posterior weight of each cluster versus the number of steps taken. These data correspond to the model using displacement-based dynamics representation}{figure.15}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{17}{subfigure.15.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{17}{subfigure.15.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Dynamics learning in an unseen environment. For this environment, the robot damage is in the leg 4, the friction coefficient is 0.77 and the torque scale is 0.82}}{17}{figure.16}\protected@file@percent }
+\newlabel{new_env}{{16}{17}{Dynamics learning in an unseen environment. For this environment, the robot damage is in the leg 4, the friction coefficient is 0.77 and the torque scale is 0.82}{figure.16}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Dynamics learning performance after having collected an episode of interactions from this environment. With dataset updated, 20 extra Gibbs sampling sweeps were conducted to identify the best indicator configuration.}}{17}{figure.17}\protected@file@percent }
+\newlabel{new_adapt}{{17}{17}{Dynamics learning performance after having collected an episode of interactions from this environment. With dataset updated, 20 extra Gibbs sampling sweeps were conducted to identify the best indicator configuration}{figure.17}{}}
+\newlabel{maze_0}{{18a}{18}{Subfigure 18a}{subfigure.18.1}{}}
+\newlabel{sub@maze_0}{{(a)}{a}{Subfigure 18a\relax }{subfigure.18.1}{}}
+\newlabel{maze_1}{{18b}{18}{Subfigure 18b}{subfigure.18.2}{}}
+\newlabel{sub@maze_1}{{(b)}{b}{Subfigure 18b\relax }{subfigure.18.2}{}}
+\newlabel{maze_2}{{18c}{18}{Subfigure 18c}{subfigure.18.3}{}}
+\newlabel{sub@maze_2}{{(c)}{c}{Subfigure 18c\relax }{subfigure.18.3}{}}
+\newlabel{maze_3}{{18d}{18}{Subfigure 18d}{subfigure.18.4}{}}
+\newlabel{sub@maze_3}{{(d)}{d}{Subfigure 18d\relax }{subfigure.18.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces The effective distance travelled by the robot versus the step number. Since the maze is U-shaped, we use effective distance instead of the distance to the goal to track the progress of the robot. The effective distance is defined to be the projection on the suggested path, which is the distance on the path that is closet to the robot's current position. The effective distance at the exit is 55.386. }}{18}{figure.18}\protected@file@percent }
+\newlabel{navigation_results}{{18}{18}{The effective distance travelled by the robot versus the step number. Since the maze is U-shaped, we use effective distance instead of the distance to the goal to track the progress of the robot. The effective distance is defined to be the projection on the suggested path, which is the distance on the path that is closet to the robot's current position. The effective distance at the exit is 55.386}{figure.18}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{18}{subfigure.18.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{18}{subfigure.18.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {}}}{18}{subfigure.18.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {}}}{18}{subfigure.18.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Maze Adaptation}{18}{subsection.5.3}\protected@file@percent }
 \bibstyle{unsrt}
 \bibdata{reference}
 \bibcite{alphaGo}{1}
@@ -159,17 +238,6 @@
 \bibcite{GP_posterior}{17}
 \bibcite{Matern}{18}
 \bibcite{MCTS}{19}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces The robot walking with one leg (left blue-yellow leg) damaged. The knee flexion angle of this leg is fixed at $30^{\circ }$ to reduce contact with the ground. }}{12}{figure.6}\protected@file@percent }
-\newlabel{damaged_robot}{{6}{12}{The robot walking with one leg (left blue-yellow leg) damaged. The knee flexion angle of this leg is fixed at $30^{\circ }$ to reduce contact with the ground}{figure.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Generating the Repertoire with MAP-Elites}{12}{subsection.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Determine the Basis with SVD}{12}{subsection.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Collecting Data Collaboratively}{12}{subsection.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {V}Results and Analysis}{12}{section.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Dirichlet Process Clustering}{12}{subsection.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Dynamics Learning}{12}{subsection.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Tunnel Navigation Challenge}{12}{subsection.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion}{12}{section.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{References}{12}{section*.1}\protected@file@percent }
 \bibcite{APROL}{20}
 \bibcite{DP}{21}
 \bibcite{Gibbs_sampling}{22}
@@ -178,6 +246,10 @@
 \bibcite{MCMC}{25}
 \bibcite{Bayesian_mixture}{26}
 \bibcite{EM}{27}
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Maze Adaptation Details}}{19}{table.2}\protected@file@percent }
+\newlabel{detailed_data}{{II}{19}{Maze Adaptation Details}{table.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion}{19}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{19}{section*.1}\protected@file@percent }
 \bibcite{infinite_GMM}{28}
 \bibcite{infinite_MGP}{29}
 \bibcite{variational_MGP}{30}
@@ -189,3 +261,5 @@
 \bibcite{PyBullet}{36}
 \bibcite{cully2015robots}{37}
 \bibcite{QDgym}{38}
+\bibcite{elbow}{39}
+\bibcite{DWA}{40}
