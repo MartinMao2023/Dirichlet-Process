@@ -112,18 +112,6 @@ Thomas~J Santner, Brian~J Williams, William~I Notz, and Brain~J Williams.
 \newblock {\em The design and analysis of computer experiments}, volume~1.
 \newblock Springer, 2003.
 
-\bibitem{MCTS}
-Guillaume Chaslot, Sander Bakkes, Istvan Szita, and Pieter Spronck.
-\newblock Monte-carlo tree search: A new framework for game ai.
-\newblock In {\em Proceedings of the AAAI Conference on Artificial Intelligence
-  and Interactive Digital Entertainment}, volume~4, pages 216--217, 2008.
-
-\bibitem{APROL}
-Rituraj Kaushik, Pierre Desreumaux, and Jean-Baptiste Mouret.
-\newblock Adaptive prior selection for repertoire-based online learning in
-  robotics.
-\newblock {\em arXiv preprint arXiv:1907.07029}, 2019.
-
 \bibitem{DP}
 Thomas~S Ferguson.
 \newblock A bayesian analysis of some nonparametric problems.
@@ -169,6 +157,36 @@ Arthur~P Dempster, Nan~M Laird, and Donald~B Rubin.
 Carl Rasmussen.
 \newblock The infinite gaussian mixture model.
 \newblock {\em Advances in neural information processing systems}, 12, 1999.
+
+\bibitem{MCTS}
+Guillaume Chaslot, Sander Bakkes, Istvan Szita, and Pieter Spronck.
+\newblock Monte-carlo tree search: A new framework for game ai.
+\newblock In {\em Proceedings of the AAAI Conference on Artificial Intelligence
+  and Interactive Digital Entertainment}, volume~4, pages 216--217, 2008.
+
+\bibitem{APROL}
+Rituraj Kaushik, Pierre Desreumaux, and Jean-Baptiste Mouret.
+\newblock Adaptive prior selection for repertoire-based online learning in
+  robotics.
+\newblock {\em arXiv preprint arXiv:1907.07029}, 2019.
+
+\bibitem{CF_recom}
+Francesco Ricci, Lior Rokach, and Bracha Shapira.
+\newblock Introduction to recommender systems handbook.
+\newblock In {\em Recommender systems handbook}, pages 1--35. Springer, 2010.
+
+\bibitem{GPCF}
+Antoine Cully and Yiannis Demiris.
+\newblock Online knowledge level tracking with data-driven student models and
+  collaborative filtering.
+\newblock {\em IEEE Transactions on Knowledge and Data Engineering},
+  32(10):2000--2013, 2019.
+
+\bibitem{DKT}
+Chris Piech, Jonathan Bassen, Jonathan Huang, Surya Ganguli, Mehran Sahami,
+  Leonidas~J Guibas, and Jascha Sohl-Dickstein.
+\newblock Deep knowledge tracing.
+\newblock {\em Advances in neural information processing systems}, 28, 2015.
 
 \bibitem{infinite_MGP}
 Carl Rasmussen and Zoubin Ghahramani.

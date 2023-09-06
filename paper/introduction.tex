@@ -34,10 +34,21 @@ If we have multiple robots performing different tasks in different environments,
 If a robot encounters a new environment, with the interaction data uploaded, all the robots will be able to quickly adapt to this environment.
 Finally, considering the scalability of such system, we can group the data into clusters based on their dynamics and assign a GP (with the corresponding mean and kernel) to each cluster. This prevents the adaptation strategy from becoming computationally expensive after we have collected data from thousands of tasks.
 
+To be clear about the terminology, in repertoire-based method, an interaction means executing an certain elementary policy and acquiring its outcome.
+
+
+
 There are many challenges needs to be addressed to enable this collaborative learning. First, traditional clustering algorithms like k-nearest neighbours \cite{knn} and k-means \cite{k-means} need to specify the number of clusters. While in our case, this number is not even fixed as we might observe more clusters as we collect more data.
 Second, we know that each task corresponds to a single environment, and hence we are essentially clustering the tasks instead of clustering the data points.
 However, since some tasks are tougher than others, different tasks generate different amount of data. 
 As a result, we will be clustering data of inconsistent sizes.
-Third, since there is a large repertoire of policies, only a small subset of them will be executed while performing each task. Hence, it is very likely that the data collected from two tasks have no overlapping policies, making it hard to determine whether they have similar dynamics and whether they should be grouped together.
+
+
+Since the repertoire contains a large number of policies, only a small subset of them will be executed while performing each task. 
+This will only affect the posterior of a small sub
+
+Hence, it is very likely that the data collected from two tasks have no overlapping policies, making it hard to determine whether they have similar dynamics or not.
+
+
 Moreover, after we have found the clusters, the data in each cluster can never cover the entire repertoire. Hence it is difficult to determine the prior mean for the policies that are not present in this cluster.
 This paper aims to solve all the above problems by taking an non-parametric clustering method and using a uniquely designed prior mean function.

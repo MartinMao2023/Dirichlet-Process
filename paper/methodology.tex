@@ -1,9 +1,20 @@
 
 \section{Methodology}
-We are aiming to improve RTE by leveraging the collaboratively collected real-world interactions.
-To be clear about the terminology, in repertoire-based method, an interaction means executing an certain elementary policy and acquiring its outcome.
-DP enables us to achieve this by extending the GP model in RTE to an infinite mixture of GPs trained with real-world data.
-Previous works of training infinite mixture of GP via DP have been made in \cite{infinite_MGP, variational_MGP}. 
+We are aiming to improve RTE by leveraging the collaboratively collected real-world interactions as the priors of our GP.
+The greatest difficulty lies in the way to build the priors.
+In GPCF, data from each previous user is treated as one of the candidate priors.
+If we are to use the same design, we can use the posteriors calculated (with GP) using the data collected from each single task as the priors.
+However, this would not be a very ideal design in our case.
+The first reason is that we will be having a large number of priors after we have collected many data.
+Second, it is likely that some data many come from similar dynamics and should be grouped together to enable more sophisticated analysis.
+Hence, we took a different approach by first clustering the data based on their dynamics and then building a prior for each cluster.
+Since the dynamics for each previous deployment is modelled by GP, we can use DP to group them in a non-parametric manner.
+The result of such DP clustering will be an infinite mixture of GPs, where each cluster will be a GP with the prior and parameters following a certain posterior distribution.
+We then replace the transformation model in RTE by this infinite mixture of GPs, and let the robot identify the most likely GP during real-world adaptation.
+
+
+
+Previous works of training infinite mixture of GP using DP clustering have been made in \cite{infinite_MGP, variational_MGP}. 
 But in our case, the design needs to be different.
 First, our real-world interaction data are produced in individual episodes, where each episode corresponds to the interactions collected during each deployment.
 Since we know that each deployment is made in a certain environment, all the interactions in an episode should correspond to the same dynamics. 
@@ -20,11 +31,8 @@ If the episodes are decoupled, the joint covariance matrix becomes a block diago
 
 
 
-
-To really implement the DP clustering, there are many remaining challenges to be addressed.
-The prior mean and kernel are the two most important factors of a GP.
-It can be very hard to design a good prior function or to determine the length scales as we have little knowledge about the real-world dynamics.
-A few parts of our methodology heavily rely on simulation.
+It can be very hard to design a good prior function or to determine the kernel if we have completely no idea about the real-world dynamics.
+Hence, a few parts of our methodology relies on the use of simulation.
 For this, the simulation has to be relatively accurate and free of bugs.
 We also make a very strong assumption that the simulated results always correspond to real-world outcomes in some environment. 
 For example, we set the friction coefficient to 0.9 in the simulation, but the friction is underestimated and the simulated outcomes are very close to the real-world results for friction coefficient equal to 0.8.
@@ -34,8 +42,10 @@ This assumption not always true, but it plays a very important role in the metho
 
 
 \subsection{Linear Prior Mean Function}
-In GP, the prior mean function gives a prior estimate of the outcomes of all the elementary policies in a certain environment.
-To study the dynamics, we express its dependency in the following form:
+In GP, the prior mean function is most important as it provides the prior estimate of the outcomes of all the elementary policies.
+To determine a suitable form of the prior mean function, we hope to study the dependencies of the dynamics.
+We know that the outcome of a policy should depend on the behaviour of this policy as well as the environment.
+Hence, we express the dynamics in the following form:
 \begin{equation}
 x_d(\bm{\beta}, \bm{\epsilon}) = f_d(\bm{\beta}, \bm{\epsilon}) 
 + g_d(\bm{\beta}) 
@@ -138,7 +148,7 @@ If we treat the $h^*_d(\bm{\epsilon})$ term as an additional dimension of the en
 \end{equation}
 where $\bm{\varepsilon}$ is our new environment vector. 
 The vector $\Delta \bm{x}_d$ stands for the difference in dynamics for the entire repertoire with each entry $\Delta x_{d, i}$ denoting the result for the each elementary policy.
-Combined with the assumption we made about the simulation, Eq. (\ref{linear_form}) suggests we may approximate the real-world distortion of the entire repertoire using a linear model. 
+Combined with the assumption we made about the simulation, Eq. (\ref{linear_form}) suggests we may approximate the real-world distortion of the entire repertoire using a linear model, which is consistent with the design in GPCF.
 
 
 The above derivations can be extended to any order of Taylor expansion, but the dimension of the new environment vector $\bm{\varepsilon}$ increases exponentially after the second order.
@@ -556,13 +566,16 @@ Although Eq. (\ref{noises_for_v_w_phi}) doesn't give the exact value for the noi
 
 \subsection{Clustering the Dynamics with Dirichlet Processes}
 So far, we have determined the basis for our linear prior mean function, the input space, different representations of dynamics as well as the way to calculate relative noises.
-To cluster the historical data with DP, we still need the prior distribution $H$ for the detailed parameters. 
-In our case where the dynamics are modelled by GP, these parameters include the weights $\bm{w}$ for the linear mean function, the length scales $\bm{l}$ and the prior variance $\alpha_0$ for the kernel, and the noises $\sigma_{n}^2$ for covariance matrix.
+To cluster the historical data with DP, we still need the prior distribution $H$ for the detailed parameters for the GPs. 
+These parameters typically refer to the weights $\bm{w}$ for the linear mean function.
+But in our case, we also allowed the kernels to be non-stationary for higher flexibility.
+This design is to incorporate the possibility that the Bayesian inference in the input space could be different in each environment.
+Hence, we also need to determine the prior distribution for the length scales $\bm{l}$, the prior variance $\alpha_0$, and the noises variance $\sigma_{n}^2$.
+Such distribution is hard to give since we have little prior knowledge.
+Even if we could give a perfect prior distribution, the integrals in Eq. (\ref{integral_1}) and Eq. (\ref{integral_2}) are intractable since we allowed the kernel parameters to be variables.
 
 
-This is hard to do since we have little knowledge.
-Even if we could give a perfect prior distribution, the integrals in Eq. (\ref{integral_1}) and Eq. (\ref{integral_2}) are intractable.
-The solution is use Monte Carlo sampling in simulation combined with a trick called posterior convergence estimate.
+The solution is to use Monte Carlo sampling combined with a trick called posterior convergence estimate.
 We can see that these parameters are all related to the environment.
 The Monte Carlo sampling is to collect a sample of these environment-related parameters from the simulation as our prior distribution $H$.
 To do this, we first randomize the simulation settings to get a sample of simulated environments.
@@ -573,10 +586,6 @@ We then collect a sufficient amount (e.g. 64) of interaction data from each envi
 = \arg \min_{\bm{\theta}} \, -\log p(\bm{y}|\bm{\theta})
 \label{MLE}
 \end{equation}
-The Monte Carlo sampling seems computationally expensive. But note that the sample amount for each environment is small and invariant to the size of the repertoire.
-Hence it is much cheaper to do than finding the basis for the prior mean function, where we need to evaluate all the policies in several environments.
-
-
 The probabilistic model in our case is a product of GPs over the dimensions, and $p(\bm{y}|\bm{\theta})$ can be calculated from Eq. (\ref{multi_normal}):
 \begin{equation}
 \begin{gathered}
@@ -596,7 +605,10 @@ It is worth noting that the noise $\sigma_n^2$ in displacement-based representat
 \label{modified_covariance_matrix}
 \end{equation}
 where matrix $\bm{D}$ is a diagonalized matrix with entries calculated according to Eq. (\ref{noises_for_v_w_phi}).
-The optimal solution of Eq. (\ref{MLE}) can be obtained using optimization algorithms like L-BFGS-B. The integrals in Eq. (\ref{integral_2}) and Eq. (\ref{integral_1}) hence become the averages of finite number of terms:
+The optimal solution of Eq. (\ref{MLE}) can be obtained using optimization algorithms like L-BFGS-B. 
+The Monte Carlo sampling seems computationally expensive. But note that the sample amount for each environment is small and invariant to the size of the repertoire.
+Hence it is much cheaper to do than finding the basis for the prior mean function, where we need to evaluate all the policies in several environments.
+Since we have used Monte Carlo sampling to represent the prior, the integrals in Eq. (\ref{integral_2}) and Eq. (\ref{integral_1}) now become averages over finite number of terms:
 \begin{equation}
 \begin{gathered}
 p(y_i|c_i, \bm{y}_{-i}, \bm{c}_{-i}) = 
@@ -623,19 +635,9 @@ Although the integrals are now made tractable, this method has two fatal shortag
 First, the Monte Carlo sampling only provides limited precision of the parameters.
 As each cluster grow larger, Eq. (\ref{MC_posterior}) implies that the set of parameters that is closest to the ground truth will eventually make up 100\% of the posterior weight.
 Hence, the number of clusters will not exceed the amount of sampled priors. 
-Second and more importantly, the prior collection is made in simulation, which ensures no extrapolation to the real-world.
+Second and more importantly, the prior collection is made in simulation, which ensures no extrapolation to the real-world dynamics.
 To solve these two shortages, we introduce a trick called posterior convergence estimate.
 As a cluster gathers more data, the posterior distribution of its parameters will become narrower and more centred closer to the ground truth (see Fig \ref{posterior_convergence}).
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.45\textwidth]{posterior_convergence.pdf}
-\caption{Example of the convergence of parameter posterior in DPMM.
-Data are sampled from a infinite mixture of Gaussians, where the variance is fixed at 4, and the mean is given by a Gaussian mixture as the prior.
-As the cluster grows larger, the posterior of the mean becomes more narrowed and centred at the ground truth (5.5).
-}
-\label{posterior_convergence}
-\end{figure}
-%
 When the cluster size is large, we can safely assume that the posterior becomes a sharp spike.
 Hence, we may treat it as a Dirac delta distribution, and Eq. (\ref{integral_1}) becomes:
 \begin{equation}
@@ -651,52 +653,109 @@ d\bm{\theta}
 \end{equation}
 This is called posterior convergence estimate, and the center of this Dirac delta is located using MAP. 
 This means we refit the parameters for large clusters (with data size above a threshold, e.g. 30) as their posterior.
-This design is to leverage the fact that for small clusters the posteriors haven't converged, and their integration can be efficiently approximated by Eq. (\ref{MC_prior_integral}).
-While for large clusters, their posterior cannot be efficiently represented by any prior, so we allow them to determine the best parameters based on their data.
+This design is to leverage the fact that for small clusters, their posteriors haven't converged and spread across the parameter space.
+Hence the integrals can be efficiently approximated by Eq. (\ref{MC_prior_integral}).
+While for large clusters, their posterior cannot be well represented by any prior sample, so we allow them to determine the best parameters based on their data.
 The only thing that such prior should satisfy is that it covers a variety of possible cases.
-Thus, the use of Monte Carlo sampling for the prior acts like a guide for smaller clusters, and neither the coverage of parameters or the number of clusters is constrained by the prior. 
-
+Thus, the use of Monte Carlo sampling for the prior acts like a guide for smaller clusters, but neither the coverage of parameters nor the number of clusters is constrained by the sampled prior. 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.45\textwidth]{posterior_convergence.pdf}
+\caption{Example of the convergence of parameter posterior in DPMM.
+Data are sampled from a infinite mixture of Gaussians, where the variance is fixed at 4, and the mean is given by a Gaussian mixture as the prior.
+As the cluster grows larger, the posterior of the mean becomes more narrowed and centred at the ground truth (5.5).
+}
+\label{posterior_convergence}
+\end{figure}
 
 Because we have no access to the analytical form of the prior to do MAP, we can use MLE instead (for large data size, MLE and MAP gives similar results).
 Hence, during Gibbs sampling, the likelihood of an episode belonging to a large cluster is calculated according to Eq. (\ref{posterior_convergence_estimate}), while the likelihood of belonging to a small cluster is calculated using the first equation in Eq. (\ref{MC_prior_integral}).
 As mentioned previously, the episode needs to be removed from its current cluster which will affect the posterior when calculating the likelihood of this episode staying in its current cluster.
-For small cluster, we can recalculate the posterior using Eq. (\ref{MC_posterior}).
-For large cluster, this means the parameter $\bm{\theta}^*$ needs to refitted with this episode removed, if the data size is still large enough without this episode. 
+For small cluster, we can easily recalculate the posterior using Eq. (\ref{MC_posterior}).
+For large cluster, if the data size is still large enough without this episode, the parameter $\bm{\theta}^*$ needs to refitted with this episode removed.
+If the data size is no longer large enough without this episode, the posterior is calculated in the same way as a small cluster.
 After each resample step, we also need to refit the parameters for large clusters if any change is made.
 Be aware that the subscript $i$ in Eq. (\ref{MC_prior_integral}), Eq. (\ref{MC_posterior}) and Eq. (\ref{posterior_convergence_estimate}) refers to each episode instead of each individual interaction data. 
-Similarly, the $n$ in Eq. (\ref{indicator_posterior_3}) corresponds to the number of episodes instead of the amount of data.
+Similarly, the $N$ and $n_j$ in Eq. (\ref{indicator_posterior_3}) correspond to the number of episodes instead of the amount of data.
 
 
 In practice, refitting all the parameters in each step of Gibbs sampling could lead to performance issues as the Gibbs sampling cannot be paralleled.
-It is much cheaper to just refit the weights for the prior mean function and leave the rest of the parameters fixed.
-It is reasonable as the prior is most important and can be obtained analytically:
+It is much cheaper to just refit the weights for the prior mean function as they are most important can be obtained analytically.
+Hence, for a large cluster, we use the most likely kernel in the Monte Carlo sampled prior and calculate the best fitting weights using:
 \begin{equation}
 \bm{w}_d^* = \left(\sum_{i=1}^n
 \bm{X}_i^T \bm{\Sigma}_{i, \bm{\theta}_d}^{-1} \bm{X}_i
-\right)^{-1} \sum_{i=1}^n \bm{X}^T_i \bm{\Sigma}_{i, \bm{\theta}_d}^{-1} \Delta \bm{x}_{i, d}
+\right)^{-1} \sum_{i=1}^n \left( \bm{X}^T_i \bm{\Sigma}_{i, \bm{\theta}_d}^{-1} \Delta \bm{x}_{i, d} \right)
 \label{refitted_weights}
 \end{equation}
-where the summation is made over all the episodes in the cluster.
+This is the formula we use to determine the most suitable prior for each cluster.
+The summation is made over all the episodes in the cluster.
 $\Delta \bm{x}_{i, d}$ is the real-world distortions of the $i^{\text{th}}$ episode.
 $\bm{X}_i$ is the coordinate matrix of this episode, where each row gives the coordinates of the policy corresponding to each interaction.
-Since the rest of the parameters are fixed, the covariance matrix $\bm{\Sigma}_{i, \bm{\theta}_d}$ is generated using the most likely prior sample.
+The covariance matrix $\bm{\Sigma}_{i, \bm{\theta}_d}$ is generated using the most likely kernel.
+
+To sum up, the complete algorithm for conducting DP clustering is presented in the pseudo code below:
+\begin{algorithm}
+\caption{DP Clustering}
+\begin{algorithmic}
+\STATE \textbf{procedure} DP Clustering
+\STATE $\mathcal{R} \leftarrow $ MAP{\_}Elites() \COMMENT{Generate the repertoire}
+\STATE $\bm{X} \leftarrow \emptyset$ \COMMENT{Initialize collected distortions}
+\FOR{$\bm{i} = 1 \rightarrow G$}
+\STATE $\varepsilon \leftarrow$ random{\_}simulation{\_}settings()
+\STATE $\Delta \bm{x}_{1:D} \leftarrow $ evaluate{\_}repertoire($\mathcal{R}$, $\varepsilon$)
+\STATE $\bm{X}$.append($\Delta \bm{x}_{1:D}$)
+\ENDFOR
+\STATE $\bm{X} \leftarrow$ SVD($\bm{X}$) \COMMENT{Reduce the dimensionality via SVD}
+\STATE $\bm{X} \leftarrow$ PCA($\bm{X}$) \COMMENT{Convert into input space via PCA}
+\STATE 
+
+\STATE $H \leftarrow \emptyset$ \COMMENT{Initialize Monte Carlo sampled priors}
+\FOR{$\bm{i} = 1 \rightarrow N$}
+\STATE $\varepsilon\leftarrow$ random{\_}simulation{\_}settings()
+\STATE $\mathcal{D} \leftarrow \emptyset$ \COMMENT{Initialize dataset}
+\FOR{$\bm{j} = 1 \rightarrow M$} 
+\STATE $\Theta \leftarrow$ evaluate{\_}random{\_}policy()
+\STATE $\mathcal{D}$.append($\Theta$)
+\ENDFOR
+\STATE $\bm{\theta} \leftarrow$ MLE($\mathcal{D}$) \COMMENT{Find the parameters with MLE}
+\STATE $H$.append($\bm{\theta}$)
+\ENDFOR
+\STATE \COMMENT{Gibbs sampling}
+
+
+\STATE $\xi^{*} \leftarrow -\infty$ \COMMENT{Initialize highest likelihood}
+\STATE $\mathcal{C} \leftarrow$ initialize{\_}cluster{\_}assignment() 
+\FOR{$\bm{i} = 1 \rightarrow T$} 
+\STATE $\mathcal{C}$, $\xi$ $\leftarrow$ Gibbs{\_}sampling{\_}sweep($\mathcal{C}$, $H$)
+\IF{$\xi > \xi^{*}$}
+\STATE $\xi^{*} \leftarrow \xi$
+\STATE $\mathcal{C}^{*} \leftarrow \mathcal{C}$ \COMMENT{Record the best result}
+\ENDIF
+\ENDFOR
+\RETURN $\mathcal{C}^{*}$ 
+\end{algorithmic}
+\label{DP_clustering}
+\end{algorithm}
+In our implementation, we modelled the clustering and online-adaptation to be made in two separated systems.
+The DP clustering of historical data is conducted in the archive management system, which would typically be a cloud server where expensive data processing is available.
+After having found the clusters, the results are saved as an adaptation system to be used (downloaded) by individual robots.
+The adaptation system is independent from the archive, and we are free to make simplifications for embedded systems.
+
+
 
 
 
 \subsection{Learning the Dynamics Online}
-After having clustered the historical data, we can use the result to assist adaptation.
-In RTE, we learn the distortion online using GPs, where the parameters (prior mean function, kernel etc.) are determined manually.
-In our method, the dynamics is modelled with an infinite mixture of GPs. 
-The GP parameters are given by the posterior distribution found with historical data, which is a mixture model of finite terms:
+In theory, the dynamics is modelled with an infinite mixture of GPs, where the GP parameters follow a finite mixture of distributions:
 \begin{equation}
 p(\bm{\theta}) = \sum_j \frac{n_j}{n + \alpha} p(\bm{\theta}|c=j) 
 + \frac{\alpha}{n + \alpha} H(\bm{\theta})
 \label{trained_mixture_model}
 \end{equation}
-where the summation is made over the clusters containing at least one episode, and $p(\bm{\theta}|c=j)$ denotes the posterior for the $j^{\text{th}}$ cluster.
-Each instance of $\bm{\theta}$ sampled from $p(\bm{\theta})$ is a certain configuration of parameters of GP.
+where the summation is made over the clusters containing at least one episode, and $p(\bm{\theta}|c=j)$ denotes the posterior of parameters for the $j^{\text{th}}$ cluster.
 The last term results from the important property of DPMM that there is always a non-zero probability that we will get a new cluster (face a new situation).
-The online learned distortion is integrated over the posterior of $\bm{\theta}$ conditioned on the collected real-world interactions:
+Each instance of $\bm{\theta}$ sampled from $p(\bm{\theta})$ is a certain configuration of parameters of GP, and the learned distortion is integrated over the posterior of $\bm{\theta}$ conditioned on the real-world interactions collected online:
 \begin{equation}
 \begin{gathered}
 p(x^*_d|\bm{x}_{1:N}) 
@@ -707,7 +766,7 @@ p(x^*_d|\bm{x}_{1:N})
 \end{gathered}
 \label{MGP_posterior}
 \end{equation}
-where the indicator probability is given by:
+where the indicator probabilities are given by:
 \begin{equation}
 \begin{gathered}
 p(c=j| \bm{x}_{1:N}) 
@@ -721,7 +780,9 @@ p(c \neq j, \forall j| \bm{x}_{1:N})
 \label{MGP_indicator}
 \end{equation}
 where $\bm{x}_{1:N}$ stands for the collected ($N$ number of) interaction data during deployment.
-This is complicated and requires calculating multiple integrals over the posteriors. 
+
+
+In practice, approximations have to be made since Eq. (\ref{MGP_indicator}) requires calculating multiple complicated and intractable integrals over the posteriors. 
 Fortunately, if we have applied posterior convergence estimate for $p(\bm{\theta}|c=j)$, we will have:
 \begin{equation}
 \begin{gathered}
@@ -732,21 +793,15 @@ Fortunately, if we have applied posterior convergence estimate for $p(\bm{\theta
 \label{posterior_convergence_simplification}
 \end{equation}
 where $\bm{\theta}^*_j$ denotes the optimal parameters for the cluster $j$.
-In actual implementation, the clustering of historical data with DP is conducted in the archive management system where expensive data processing is available. 
-The results are saved as an adaptation system to be used (downloaded) by individual robots.
-The adaptation system is independent from the archive, and we are free to make simplifications for embedded systems.
-Hence, we can apply posterior convergence estimate for all the clusters we have found for simplicity.
-For clusters that are not large enough to refit the parameters, we will just use the parameters of the most likely prior sample.
-This might be inappropriate for clusters that are very small, and hence we can discard them from the adaptation system.
-
-
-We still need to solve the two integrals in Eq. (\ref{MGP_posterior}) and Eq. (\ref{MGP_indicator}) for the case of a new cluster.
-This can be hard even with the Monte Carlo sampling. 
-If our MC prior does not cover this new situation, our method could fail.
-In this paper, we take a very simple solution by using RTE to incorporate this new situation.
+Hence for simplicity, we can apply posterior convergence estimate for all the clusters we have found.
+For the clusters that are not large enough to refit the parameters, we will just use the parameters of the most likely prior sample.
+As for clusters that are very small, this might be inappropriate, and we can simply discard them from the adaptation system.
+Apart from the clusters we have found, DPMM also gives an extra term that corresponds to the case of a new cluster (facing a new situation).
+One of the solutions is to use Monte Carlo sampling and replace the last integrals in Eq. (\ref{MGP_posterior}) and Eq. (\ref{MGP_indicator}) by the summations over a large number of samples.
+In this paper, we take a very simple alternative by using RTE to incorporate this new situation.
 Although RTE is not optimized for any environment, it offers a satisfying baseline performance in all situations.
 The non-zero probability of encountering new cases secured by DP and the use of RTE ensures that we can always adapt well to new situations and hence will never over-fit to the training data.
-Combined with Eq. (\ref{posterior_convergence_simplification}), the distortion becomes:
+Combined with Eq. (\ref{posterior_convergence_simplification}), the predicted distortion becomes a finite mixture of GPs:
 \begin{equation}
 \begin{gathered}
 p(x^*_d|\bm{x}_{1:N}) 
@@ -771,11 +826,18 @@ Z = \sum_k n_k \cdot p(\bm{x}_{1:N}|\bm{\theta}^*_k) + \alpha \cdot p(\bm{x}_{1:
 \end{gathered}
 \label{simplified_indicator}
 \end{equation}
+This is much cheaper to evaluate, and the performance shouldn't suffer too much from the simplifications we made.
+
+
 In contrast to RTE, our online learning of the dynamics consists of two levels.
-The first level is to use the real-world data to figure out the situation that the robot is in, which is the indicator probability given by Eq. (\ref{simplified_indicator}).
+The first level is to use the real-world data to figure out the situation that the robot is in.
+This will affect the probabilities for each GP (with the corresponding prior) to be employed for prediction making.
 Considering the dynamics can be distinct for different environments, the robot should be able to quickly figure out its current situation.
-Since each situation has a prior mean function that can give estimation of the dynamics without further data, our method should be able to provide fast online learning of the real-world dynamics with much higher data-efficiency than RTE.
+Since the prior for each situation that can give estimation of the dynamics without further data, our method should be able to provide fast online learning of the real-world dynamics with much higher data-efficiency than RTE.
 The second level is to learn the residual dynamics, which is the part of the distortion failed to be captured by the prior mean, using the kernels optimized for each situation.
 The final prediction of dynamics given by Eq. (\ref{simplified_distortion}) is a mixture of Gaussians.
-Where each mixture component has mean and variance calculated using Eq. (\ref{GP_posterior}), and the mixture weights are equal to the probabilities of being in each situation.
-This learned dynamics can then be used by the robot to correct its motion accordingly.
+The mean and variance for each mixture component are calculated using Eq. (\ref{GP_posterior}), and the mixture weights are the probabilities of being in each situation, namely the indicator probability given by Eq. (\ref{simplified_indicator}).
+This learned dynamics can then be used by the robot to correct its motion accordingly, hence performing model-based online adaptation.
+
+
+

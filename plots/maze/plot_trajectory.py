@@ -72,12 +72,12 @@ plt.scatter(rte_hits[:, 1, 0], rte_hits[:, 1, 1], marker=marker, s=200, c='#ff7f
 
 
 plt.scatter(xy_trajectory.T[0], xy_trajectory.T[1], marker=marker, s=200, c='#2ca02c', 
-            edgecolors='black', linewidths=1, label="Collab (XY-bases)", alpha=0.9)
+            edgecolors='black', linewidths=1, label="DPMM (xy-based)", alpha=0.9)
 plt.scatter(xy_hits[:, 1, 0], xy_hits[:, 1, 1], marker=marker, s=200, c='#2ca02c', 
             edgecolors='black', linewidths=1, alpha=0.3)
 
 plt.scatter(arc_trajectory.T[0], arc_trajectory.T[1], marker=marker, s=200, c='#9467bd', 
-            edgecolors='black', linewidths=1, label="Collab (arc-bases)", alpha=0.9)
+            edgecolors='black', linewidths=1, label="DPMM (arc-based)", alpha=0.9)
 plt.scatter(arc_hits[:, 1, 0], arc_hits[:, 1, 1], marker=marker, s=200, c='#9467bd', 
             edgecolors='black', linewidths=1, alpha=0.3)
 
@@ -92,8 +92,8 @@ plt.arrow(-1, -1.2, 0.4, 0.45, width=0.1, color="black")
 plt.text(-2, -1.9, "Start", fontsize=16)
 
 plt.plot(np.zeros(8), np.linspace(11.5, 16, 8), color='#d62728', linestyle="--")
-plt.arrow(3.5, 10, -2.5, 1.5, width=0.1, color="black")
-plt.text(2.5, 9, "Finish line", fontsize=16)
+plt.arrow(2.5, 9, -2, 2, width=0.1, color="black")
+plt.text(3, 8.5, "Finish line", fontsize=16)
 
 legend = plt.legend(loc=(0.5, 0.4), fontsize=14)
 legend.get_frame().set_edgecolor("none")

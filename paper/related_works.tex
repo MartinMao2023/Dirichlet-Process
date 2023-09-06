@@ -1,0 +1,54 @@
+\section{Related Works}
+
+\subsection{Reset-free Trial-and-Error Learning}
+The work of this paper is based on the Reset-free Trial-and-Error \cite{RTE} (RTE) algorithm. 
+It is a repertoire-based method that uses MAP-Elites to build the repertoire and employs GP to learn the distortion online.
+The choice of GP as the transformation model is a very clever choice for two reasons.
+First, the online learning requires very high data-efficiency, which happens to be one of the strengths of GP. 
+Secondly, the true dynamics happens at low level, while the repertoire-based method learns the transformation model at high level. This will inevitably introduce errors, which can be well incorporated by GP as being a probabilistic model.
+In RTE, the task space is just the displacement of the robot in x and y direction after executing each policy.
+The prior mean function of RTE is chosen to be the outcomes of the policies evaluated in the simulator, which are the results collected during the MAP-Elites policy generation. 
+Since the policy outcome has two dimensions (x and y), RTE uses a different GP for each dimension.
+The kernel is chosen to be the RBF kernel with an isotropic distance metric. The input space is chosen to be the same as the task space, namely the x and y displacement evaluated in the simulation. 
+During online adaptation, the RTE first predicts the outcome of each policy in the repertoire using Eq. (\ref{GP_posterior}), then it uses a Monte Carlo Tree Search \cite{MCTS} (MCTS) to plan its actions.
+It is worth noting that the RTE uses a periodic set of commands as the elementary policy. 
+This means the policy execution is open-loop control, despite the robot knows its position and orientation.
+While using such periodic controllers seems to be weaker than using a neural network, it is much more stable than using neural networks. 
+This is because a periodic controller performs all its actions during evaluation, while neural networks are much more complicated and could behave very differently in different situations.
+Since the repertoire based control aims to learn the distortion with limited number of interactions, the distortion cannot be too large or too complicated. Hence the use of periodic controller is a much better choice. 
+
+
+This method is not very ideal for three reasons. 
+First, the use of outcomes in default simulation environment as the prior mean is not good enough. Since some conditions like broken leg can lead to very large distortions. In this case, such prior would be misleading. 
+Second, the use of the task space as the input space is not ideal. Two policies leading to very close displacements could follow very different trajectories, hence they may react very differently to the same new environment.
+Also, the kernel in the RTE is manually chosen, which depends on experiences of the designer and could lead to suboptimal results.
+Nevertheless, this method successfully enabled a damaged hexapod robot to recover 77.52\% of its capability \cite{RTE} and significantly outperforms the baseline result that does not use the GP as the transformation model.
+
+
+\subsection{Adaptive Prior selection for Repertoire-based Online Learning}
+In online adaptation, the real-world distortion could be very far from the prior mean, which will make the RTE learning very inefficient.
+Another repertoire-based method called Adaptive Prior selection for Repertoire-based Online Learning \cite{APROL} (APROL) takes a very similar approach as RTE but uses several repertoires generated in different environments to address potential large distortions. 
+Instead of using a single prior for the GP, APROL uses each of its repertoires as a prior.
+Since the repertoires are generated in different environments, each of the priors corresponds to a certain environment. 
+During APROL adaptation, the robot uses the online-collected data to identify the most likely environment it is currently facing and uses the policies in the corresponding repertoire to make adaptation.
+The APROL achieves better result than RTE but is still limited for two reasons.
+Since the number of repertoires are limited, the priors only cover a finite number of cases.
+Second, all the repertoires are generated in simulations which inevitably suffers from sim-to-real issues, generalizing to real-world dynamics is still challenging.
+Despite of these issues, the design of using multiples priors is very fascinating.
+GP can only provide estimates for points close to the collected data in the input space (with strong probabilistic inferences), while finding the correct prior can boost the prediction accuracies for all policies.
+The works in this paper is inspired by such design in APROL.
+But we still based our work on RTE since it is easier to implement, and any improvements made on RTE can be effectively transferred to APROL.
+
+
+
+\subsection{Gaussian Process with Collaborative filtering}
+In general, making accurate predictions with limited amount of interaction data is challenging, especially when little prior knowledge is given.
+In domains like recommendation systems, this is known as the "cold start" problem where the system has to estimate user preferences without sufficient prior user information.
+One of the solutions to address this problem is to leverage the data collected from previous users, which is known as collaborative filtering \cite{CF_recom}. 
+The application of the collaborative filtering in GP is made in \cite{GPCF}, where the collaborative filtering is there to build an non-constant prior mean function.
+This method is called Gaussian Process with Collaborative filtering (GPCF).
+In GPCF, the prior of GP is a linear combination of previous user data. 
+When making predictions for a new user, this prior mean will adapt to user interactions to identify which of the previous users can best explain the data collected from the new user. 
+The intelligent tutoring system employing GPCF provides a much higher accuracy and data efficiency than other advanced methods like Deep Knowledge Tracing \cite{DKT}. 
+This method provides a very promising improvement to the APROL that the prior are now built from real-world data, which removes the sim-to-real issue.
+Hence, we could use historical real-world interaction data to build several GPs with different and determine the most likely one during online adaptation.

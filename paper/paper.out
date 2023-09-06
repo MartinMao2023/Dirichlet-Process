@@ -1,24 +1,27 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section.2}{Related Works}{}% 2
+\BOOKMARK [1][-]{section.2}{Background}{}% 2
 \BOOKMARK [2][-]{subsection.2.1}{Quality-Diversity Optimization}{section.2}% 3
 \BOOKMARK [2][-]{subsection.2.2}{Gaussian Process}{section.2}% 4
-\BOOKMARK [2][-]{subsection.2.3}{Reset-free Trial-and-Error Learning}{section.2}% 5
-\BOOKMARK [2][-]{subsection.2.4}{Dirichlet Process Mixture Model}{section.2}% 6
-\BOOKMARK [1][-]{section.3}{Methodology}{}% 7
-\BOOKMARK [2][-]{subsection.3.1}{Linear Prior Mean Function}{section.3}% 8
-\BOOKMARK [2][-]{subsection.3.2}{Determine the Input Space}{section.3}% 9
-\BOOKMARK [2][-]{subsection.3.3}{Choosing the Dynamics Representation}{section.3}% 10
-\BOOKMARK [2][-]{subsection.3.4}{Clustering the Dynamics with Dirichlet Processes}{section.3}% 11
-\BOOKMARK [2][-]{subsection.3.5}{Learning the Dynamics Online}{section.3}% 12
-\BOOKMARK [1][-]{section.4}{Experiment Design}{}% 13
-\BOOKMARK [2][-]{subsection.4.1}{Robot Setup}{section.4}% 14
-\BOOKMARK [2][-]{subsection.4.2}{Generating the Repertoire with MAP-Elites}{section.4}% 15
-\BOOKMARK [2][-]{subsection.4.3}{Determine the Coordinates of Policies}{section.4}% 16
-\BOOKMARK [2][-]{subsection.4.4}{Clustering the Collaboratively Collected Data}{section.4}% 17
-\BOOKMARK [2][-]{subsection.4.5}{Model-Based Adaptation in a Maze}{section.4}% 18
-\BOOKMARK [1][-]{section.5}{Results and Analysis}{}% 19
-\BOOKMARK [2][-]{subsection.5.1}{Dirichlet Process Clustering}{section.5}% 20
-\BOOKMARK [2][-]{subsection.5.2}{Dynamics Learning}{section.5}% 21
-\BOOKMARK [2][-]{subsection.5.3}{Maze Adaptation}{section.5}% 22
-\BOOKMARK [1][-]{section.6}{Conclusion}{}% 23
-\BOOKMARK [1][-]{section*.1}{References}{}% 24
+\BOOKMARK [2][-]{subsection.2.3}{Dirichlet Process Mixture Model}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Related Works}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{Reset-free Trial-and-Error Learning}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.2}{Adaptive Prior selection for Repertoire-based Online Learning}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.3}{Gaussian Process with Collaborative filtering}{section.3}% 9
+\BOOKMARK [1][-]{section.4}{Methodology}{}% 10
+\BOOKMARK [2][-]{subsection.4.1}{Linear Prior Mean Function}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.2}{Determine the Input Space}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.3}{Choosing the Dynamics Representation}{section.4}% 13
+\BOOKMARK [2][-]{subsection.4.4}{Clustering the Dynamics with Dirichlet Processes}{section.4}% 14
+\BOOKMARK [2][-]{subsection.4.5}{Learning the Dynamics Online}{section.4}% 15
+\BOOKMARK [1][-]{section.5}{Experiment Design}{}% 16
+\BOOKMARK [2][-]{subsection.5.1}{Robot Setup}{section.5}% 17
+\BOOKMARK [2][-]{subsection.5.2}{Generating the Repertoire with MAP-Elites}{section.5}% 18
+\BOOKMARK [2][-]{subsection.5.3}{Determine the Coordinates of Policies}{section.5}% 19
+\BOOKMARK [2][-]{subsection.5.4}{Clustering the Collaboratively Collected Data}{section.5}% 20
+\BOOKMARK [2][-]{subsection.5.5}{Model-Based Adaptation in a Maze}{section.5}% 21
+\BOOKMARK [1][-]{section.6}{Results and Analysis}{}% 22
+\BOOKMARK [2][-]{subsection.6.1}{Dirichlet Process Clustering}{section.6}% 23
+\BOOKMARK [2][-]{subsection.6.2}{Dynamics Learning}{section.6}% 24
+\BOOKMARK [2][-]{subsection.6.3}{Maze Adaptation}{section.6}% 25
+\BOOKMARK [1][-]{section.7}{Conclusion}{}% 26
+\BOOKMARK [1][-]{section*.1}{References}{}% 27
